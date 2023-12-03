@@ -6,18 +6,17 @@ using UnityEngine.EventSystems;
 public class CardPositioner : MonoBehaviour
 {
     public Transform[] card;
+    public bool isCardDrag;
+    public bool isNoCardsHighlighted;
+    public int currentCardHighlighted;
     [SerializeField] private Transform[] positionDefault;
     [SerializeField] private Transform[] positionDefaultLeft;
     [SerializeField] private Transform[] positionDefaultRight;
     [SerializeField] private Transform[] positionHighlighted;
     [SerializeField] private float speedMoveHighlighted;
     [SerializeField] private float speedRotateHighlighted;
-    [SerializeField] private Canvas canvas;
     private Transform transformCurrentCard;
     private Transform transformCurrentTarget;
-    private int currentCardHighlighted;
-    private bool isNoCardsHighlighted;
-    private bool isCardDrag;
 
     void Start()
     {
@@ -92,14 +91,5 @@ public class CardPositioner : MonoBehaviour
         {
             isNoCardsHighlighted = true;
         }
-    }
-
-    public void DragHandler(BaseEventData data)
-    {
-        isCardDrag = true;
-        PointerEventData pointerData = (PointerEventData)data;
-        Vector2 cardPosition;
-        RectTransformUtility.ScreenPointToLocalPointInRectangle((RectTransform)canvas.transform, pointerData.position, canvas.worldCamera, out cardPosition);
-        card[currentCardHighlighted - 1].position = canvas.transform.TransformPoint(cardPosition);
     }
 }
