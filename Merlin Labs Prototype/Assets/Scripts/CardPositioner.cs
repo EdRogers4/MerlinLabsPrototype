@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class CardPositioner : MonoBehaviour
 {
@@ -12,10 +12,12 @@ public class CardPositioner : MonoBehaviour
     [SerializeField] private Transform[] positionHighlighted;
     [SerializeField] private float speedMoveHighlighted;
     [SerializeField] private float speedRotateHighlighted;
+    [SerializeField] private Canvas canvas;
     private Transform transformCurrentCard;
     private Transform transformCurrentTarget;
     private int currentCardHighlighted;
     private bool isNoCardsHighlighted;
+    private bool isCardDrag;
 
     void Start()
     {
@@ -24,11 +26,21 @@ public class CardPositioner : MonoBehaviour
 
     void Update()
     {
+
+        if ((Input.GetMouseButtonUp(0)) && isCardDrag)
+        {
+            isCardDrag = false;
+        }
+
         if (currentCardHighlighted > 0)
         {
             float step = speedMoveHighlighted * Time.deltaTime;
-            transformCurrentCard.position = Vector2.MoveTowards(transformCurrentCard.position, transformCurrentTarget.position, step);
-            transformCurrentCard.rotation = Quaternion.Slerp(transformCurrentCard.rotation, transformCurrentTarget.rotation, speedRotateHighlighted * Time.deltaTime);
+
+            if (!isCardDrag)
+            {
+                transformCurrentCard.position = Vector2.MoveTowards(transformCurrentCard.position, transformCurrentTarget.position, step);
+                transformCurrentCard.rotation = Quaternion.Slerp(transformCurrentCard.rotation, transformCurrentTarget.rotation, speedRotateHighlighted * Time.deltaTime);
+            }
 
             for (int i = 0; i < card.Length; i++)
             {
@@ -80,5 +92,14 @@ public class CardPositioner : MonoBehaviour
         {
             isNoCardsHighlighted = true;
         }
+    }
+
+    public void DragHandler(BaseEventData data)
+    {
+        isCardDrag = true;
+        PointerEventData pointerData = (PointerEventData)data;
+        Vector2 cardPosition;
+        RectTransformUtility.ScreenPointToLocalPointInRectangle((RectTransform)canvas.transform, pointerData.position, canvas.worldCamera, out cardPosition);
+        card[currentCardHighlighted - 1].position = canvas.transform.TransformPoint(cardPosition);
     }
 }
