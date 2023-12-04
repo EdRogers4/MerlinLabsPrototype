@@ -91,12 +91,6 @@ public class CardPositioner : MonoBehaviour
     {
         isNoCardsHighlighted = false;
         currentCardHighlighted = index;
-
-        if (index - 1 < 1)
-        {
-            index = 1;
-        }
-
         transformCurrentCard = listCardTransform[index - 1];
         transformCurrentTarget = listPositionsHighlighted[index - 1];
     }
