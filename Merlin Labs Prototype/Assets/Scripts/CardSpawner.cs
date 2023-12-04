@@ -27,6 +27,7 @@ public class CardSpawner : MonoBehaviour
             scriptCardPositioner.listCardTransform.Add(newCard.transform);
             scriptCardPositioner.AssignCurrentCardPositions(5);
             var thisCard = newCard.GetComponent<Card>();
+            thisCard.cardIndex = cardsToSpawn[i];
             thisCard.scriptGameManager = scriptGameManager;
             thisCard.scriptCardPositioner = scriptCardPositioner;
             thisCard.scriptCardLibrary = scriptCardLibrary;

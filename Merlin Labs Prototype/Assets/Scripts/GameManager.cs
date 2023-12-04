@@ -15,9 +15,12 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float cameraShakeTrauma;
 
     [Header("Player")]
+    [SerializeField] private int playerArmor;
     [SerializeField] private int playerHealth;
     [SerializeField] private int playerHealthMax;
     [SerializeField] private Image playerHealthFill;
+    [SerializeField] private GameObject armorDisplay;
+    [SerializeField] private TextMeshProUGUI textPlayerArmor;
     [SerializeField] private TextMeshProUGUI textPlayerHealth;
     [SerializeField] private Animator animatorPlayer;
     public int playerEnergy;
@@ -67,23 +70,56 @@ public class GameManager : MonoBehaviour
             Destroy(thisCard);
         }
 
-        StartCoroutine(EnemyAttack());
+        StartCoroutine(EnemyAttack(enemyDamage));
     }
 
-    private IEnumerator EnemyAttack()
+    private IEnumerator EnemyAttack(int damage)
     {
         yield return new WaitForSeconds(1.0f);
         animatorEnemy.SetBool("isAttack", true);
         yield return new WaitForSeconds(0.75f);
         animatorPlayer.SetBool("isTakeDamage", true);
 
-        for (int i = 0; i < enemyDamage; i++)
+        if (playerArmor <= 0)
         {
-            playerHealth -= 1;
-            var newWidth = playerHealthFill.rectTransform.sizeDelta.x - playerFillDecrease;
-            playerHealthFill.rectTransform.sizeDelta = new Vector2(newWidth, playerHealthFill.rectTransform.sizeDelta.y);
-            yield return new WaitForSeconds(0.03f);
-            textPlayerHealth.text = playerHealth + "/" + playerHealthMax;
+            for (int i = 0; i < damage; i++)
+            {
+                playerHealth -= 1;
+                var newWidth = playerHealthFill.rectTransform.sizeDelta.x - playerFillDecrease;
+                playerHealthFill.rectTransform.sizeDelta = new Vector2(newWidth, playerHealthFill.rectTransform.sizeDelta.y);
+                yield return new WaitForSeconds(0.03f);
+                textPlayerHealth.text = playerHealth + "/" + playerHealthMax;
+            }
+        }
+        else
+        {
+            for (int i = 0; i < damage; i++)
+            {
+                if (playerArmor <= 0)
+                {
+                    var remainingDamage = enemyDamage - (i + 1);
+
+                    for (int j = 0; j < remainingDamage; j++)
+                    {
+                        playerHealth -= 1;
+                        var newWidth = playerHealthFill.rectTransform.sizeDelta.x - playerFillDecrease;
+                        playerHealthFill.rectTransform.sizeDelta = new Vector2(newWidth, playerHealthFill.rectTransform.sizeDelta.y);
+                        yield return new WaitForSeconds(0.03f);
+                        textPlayerHealth.text = playerHealth + "/" + playerHealthMax;
+                    }
+                    break;
+                }
+
+                playerArmor -= 1;
+                textPlayerArmor.text = playerArmor + "";
+
+                if (playerArmor <= 0)
+                {
+                    armorDisplay.SetActive(false);
+                }
+
+                yield return new WaitForSeconds(0.1f);
+            }
         }
 
         yield return new WaitForSeconds(1.25f);
@@ -110,6 +146,22 @@ public class GameManager : MonoBehaviour
             enemyHealthFill.rectTransform.sizeDelta = new Vector2(newWidth, enemyHealthFill.rectTransform.sizeDelta.y);
             yield return new WaitForSeconds(0.03f);
             textEnemyHealth.text = enemyHealth + "/" + enemyHealthMax;
+        }
+    }
+
+    public IEnumerator GainArmor(int defense)
+    {
+        for (int i = 0; i < defense; i++)
+        {
+            playerArmor += 1;
+
+            if (playerArmor > 0)
+            {
+                armorDisplay.SetActive(true);
+            }
+
+            textPlayerArmor.text = "" + playerArmor;
+            yield return new WaitForSeconds(0.1f);
         }
     }
 
