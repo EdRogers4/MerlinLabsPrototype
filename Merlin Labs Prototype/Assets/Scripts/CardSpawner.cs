@@ -6,8 +6,11 @@ public class CardSpawner : MonoBehaviour
 {
     public GameObject prefabCard;
     [SerializeField] private Transform spawnPointCard;
+    [SerializeField] private GameManager scriptGameManager;
     [SerializeField] private CardPositioner scriptCardPositioner;
+    [SerializeField] private CardLibrary scriptCardLibrary;
     [SerializeField] private Canvas canvas;
+    [SerializeField] private int[] cardsToSpawn;
     private GameObject newCard;
 
     private void Start()
@@ -23,8 +26,14 @@ public class CardSpawner : MonoBehaviour
             newCard.transform.SetParent(canvas.transform);
             scriptCardPositioner.listCardTransform.Add(newCard.transform);
             scriptCardPositioner.AssignCurrentCardPositions(5);
-            newCard.GetComponent<Card>().scriptCardPositioner = scriptCardPositioner;
-            newCard.GetComponent<Card>().canvas = canvas;
+            var thisCard = newCard.GetComponent<Card>();
+            thisCard.scriptGameManager = scriptGameManager;
+            thisCard.scriptCardPositioner = scriptCardPositioner;
+            thisCard.scriptCardLibrary = scriptCardLibrary;
+            thisCard.canvas = canvas;
+            thisCard.textEnergyCost.text = "" + scriptCardLibrary.energyCost[cardsToSpawn[i]];
+            thisCard.textCardName.text = scriptCardLibrary.cardName[cardsToSpawn[i]];
+            thisCard.textCardDescription.text = scriptCardLibrary.cardDescription[cardsToSpawn[i]];
         }
 
         scriptCardPositioner.isNoCardsHighlighted = true;

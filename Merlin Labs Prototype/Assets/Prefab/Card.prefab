@@ -419,9 +419,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43c559c150e6be74eb0a79bb12dafa03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scriptCardLibrary: {fileID: 0}
   scriptCardPositioner: {fileID: 0}
-  indexCard: 0
   canvas: {fileID: 0}
+  cardIndex: 0
+  textEnergyCost: {fileID: 8711495515685208526}
+  textCardName: {fileID: 4441467462600566824}
+  textCardDescription: {fileID: 7815989719810216581}
 --- !u!1 &3996925372271863020
 GameObject:
   m_ObjectHideFlags: 0

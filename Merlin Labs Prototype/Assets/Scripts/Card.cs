@@ -2,11 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using TMPro;
 
 public class Card : MonoBehaviour
 {
+    public GameManager scriptGameManager;
+    public CardLibrary scriptCardLibrary;
     public CardPositioner scriptCardPositioner;
     public Canvas canvas;
+    public int cardIndex;
+    public TextMeshProUGUI textEnergyCost;
+    public TextMeshProUGUI textCardName;
+    public TextMeshProUGUI textCardDescription;
 
     void Start()
     {
@@ -35,11 +42,16 @@ public class Card : MonoBehaviour
         
     }
 
-    public void PlayCard()
+    public void ReleaseCard()
     {
-        scriptCardPositioner.listCardTransform.Remove(this.transform);
-        scriptCardPositioner.AssignCurrentCardPositions(scriptCardPositioner.listCardTransform.Count);
-        Destroy(this.gameObject);
+        if (scriptCardLibrary.energyCost[cardIndex] <= scriptGameManager.playerEnergy)
+        {
+            scriptCardPositioner.listCardTransform.Remove(this.transform);
+            scriptCardPositioner.AssignCurrentCardPositions(scriptCardPositioner.listCardTransform.Count);
+            scriptCardLibrary.PlayCard(cardIndex);
+            scriptGameManager.UseEnergy(scriptCardLibrary.energyCost[cardIndex]);
+            Destroy(this.gameObject);
+        }
     }
 
     private void CardHighlight(BaseEventData eventData)

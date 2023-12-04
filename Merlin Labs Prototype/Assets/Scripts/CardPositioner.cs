@@ -43,7 +43,7 @@ public class CardPositioner : MonoBehaviour
             
             if (worldPosition.x > -7.3f && worldPosition.x < 7.8f && worldPosition.y > -0.37 && worldPosition.y < 2.7f)
             {
-                currentCard.PlayCard();
+                currentCard.ReleaseCard();
             }
         }
 

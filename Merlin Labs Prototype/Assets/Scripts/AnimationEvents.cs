@@ -11,8 +11,18 @@ public class AnimationEvents : MonoBehaviour
         animator.SetBool("isAttack", false);
     }
 
+    public void TogglePlayerTakeDamageOff()
+    {
+        animator.SetBool("isTakeDamage", false);
+    }
+
     public void ToggleEnemyTakeDamageOff()
     {
         animator.SetBool("isTakeDamage", false);
+    }
+
+    public void ToggleEnemyAttackOff()
+    {
+        animator.SetBool("isAttack", false);
     }
 }
