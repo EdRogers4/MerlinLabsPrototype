@@ -6,7 +6,6 @@ using UnityEngine.EventSystems;
 public class Card : MonoBehaviour
 {
     public CardPositioner scriptCardPositioner;
-    public int indexCard;
     public Canvas canvas;
 
     void Start()
@@ -36,11 +35,18 @@ public class Card : MonoBehaviour
         
     }
 
+    public void PlayCard()
+    {
+        scriptCardPositioner.listCardTransform.Remove(this.transform);
+        scriptCardPositioner.AssignCurrentCardPositions(scriptCardPositioner.listCardTransform.Count);
+        Destroy(this.gameObject);
+    }
+
     private void CardHighlight(BaseEventData eventData)
     {
         PointerEventData pointerData = (PointerEventData)eventData;
-        scriptCardPositioner.currentCardHighlighted = indexCard;
-        scriptCardPositioner.HighlightCard(indexCard);
+        scriptCardPositioner.currentCardHighlighted = scriptCardPositioner.listCardTransform.IndexOf(this.transform) + 1;
+        scriptCardPositioner.HighlightCard(scriptCardPositioner.listCardTransform.IndexOf(this.transform) + 1);
     }
 
     private void CardUnhighlight(BaseEventData eventData)
@@ -51,9 +57,10 @@ public class Card : MonoBehaviour
     private void CardDrag(BaseEventData eventData)
     {
         scriptCardPositioner.isCardDrag = true;
+        scriptCardPositioner.currentCard = this;
         PointerEventData pointerData = (PointerEventData)eventData;
         Vector2 cardPosition;
         RectTransformUtility.ScreenPointToLocalPointInRectangle((RectTransform)canvas.transform, pointerData.position, canvas.worldCamera, out cardPosition);
-        scriptCardPositioner.card[scriptCardPositioner.currentCardHighlighted - 1].position = canvas.transform.TransformPoint(cardPosition);
+        scriptCardPositioner.listCardTransform[scriptCardPositioner.currentCardHighlighted - 1].position = canvas.transform.TransformPoint(cardPosition);
     }
 }

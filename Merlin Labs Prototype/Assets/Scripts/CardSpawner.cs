@@ -21,9 +21,9 @@ public class CardSpawner : MonoBehaviour
         {
             newCard = Instantiate(prefabCard, spawnPointCard.position, spawnPointCard.rotation);
             newCard.transform.SetParent(canvas.transform);
-            scriptCardPositioner.card[i] = newCard.transform;
+            scriptCardPositioner.listCardTransform.Add(newCard.transform);
+            scriptCardPositioner.AssignCurrentCardPositions(5);
             newCard.GetComponent<Card>().scriptCardPositioner = scriptCardPositioner;
-            newCard.GetComponent<Card>().indexCard = i + 1;
             newCard.GetComponent<Card>().canvas = canvas;
         }
 
