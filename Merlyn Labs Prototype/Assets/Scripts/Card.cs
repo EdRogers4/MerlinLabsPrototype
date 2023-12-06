@@ -46,6 +46,11 @@ public class Card : MonoBehaviour
     {
         if (scriptCardsLibrary.energyCost[cardIndex] <= scriptGameManager.playerEnergy && !scriptGameManager.isCardUnavailableToPlay)
         {
+            if (scriptCardsLibrary.isTargetEnemyCard[cardIndex] && scriptCardPositioner.enemyTargeted <= 0)
+            {
+                return;
+            }
+
             scriptCardPositioner.listCardTransform.Remove(this.transform);
             scriptCardPositioner.AssignCurrentCardPositions(scriptCardPositioner.listCardTransform.Count);
             scriptCardsLibrary.PlayCard(cardIndex, scriptCardPositioner.enemyTargeted - 1);

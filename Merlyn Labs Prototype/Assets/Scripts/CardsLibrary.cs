@@ -39,7 +39,10 @@ public class CardsLibrary : MonoBehaviour
                 scriptGameManager.isKnightsResolve = true;
                 StartCoroutine(scriptGameManager.GainArmor(5));
                 break;
-
+            case 7:
+                scriptGameManager.isFlurry = true;
+                scriptGameManager.PlayerAttack(6, enemyToAttack);
+                break;
         }
     }
 }

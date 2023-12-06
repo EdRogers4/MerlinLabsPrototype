@@ -2382,7 +2382,7 @@ MonoBehaviour:
   scriptCardPositioner: {fileID: 519420033}
   scriptCardsLibrary: {fileID: 519420037}
   canvas: {fileID: 325884292}
-  cardsToSpawn: 0000000001000000020000000300000005000000
+  cardsToSpawn: 0000000001000000020000000300000007000000
 --- !u!114 &519420035
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2400,6 +2400,8 @@ MonoBehaviour:
   scriptCardsLibrary: {fileID: 519420037}
   isPlantFeet: 0
   isHiltPunch: 0
+  isKnightsResolve: 0
+  isFlurry: 0
   modifierPlantFeet: 2
   modifierHiltPunch: 6
   scriptPerlinCameraShake: {fileID: 519420036}
@@ -2498,7 +2500,7 @@ MonoBehaviour:
   - Deal 7 damage twice.
   - Deal 5 damage.
   isXCost: 00000000000001010000
-  isTargetEnemyCard: 01000100010100000101
+  isTargetEnemyCard: 01000100010100010101
   scriptGameManager: {fileID: 519420035}
 --- !u!1 &527161931
 GameObject:

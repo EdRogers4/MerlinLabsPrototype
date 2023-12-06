@@ -171,6 +171,11 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator DamageEnemy(int damage, int enemyToAttack)
     {
+        if (isFlurry)
+        {
+            UseEnergy(1);
+        }
+
         yield return new WaitForSeconds(0.75f);
         animatorEnemy[enemyToAttack].SetBool("isTakeDamage", true);
 
@@ -223,7 +228,19 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        CheckCardToPlayStatus();
+        if (isFlurry && !isEnemyDead[enemyToAttack] && playerEnergy > 0)
+        {
+            PlayerAttack(6, enemyToAttack);
+        }
+        else
+        {
+            if (isFlurry)
+            {
+                isFlurry = false;
+            }
+
+            CheckCardToPlayStatus();
+        }
     }
 
     public IEnumerator GainHealth()
