@@ -2382,7 +2382,8 @@ MonoBehaviour:
   scriptCardPositioner: {fileID: 519420033}
   scriptCardsLibrary: {fileID: 519420037}
   canvas: {fileID: 325884292}
-  cardsToSpawn: 0000000001000000020000000300000007000000
+  cardsToSpawn: 0000000001000000020000000300000004000000
+  listDeck: 0500000006000000070000000800000009000000
 --- !u!114 &519420035
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2404,6 +2405,7 @@ MonoBehaviour:
   isFlurry: 0
   modifierPlantFeet: 2
   modifierHiltPunch: 6
+  counterRoundhouse: 0
   scriptPerlinCameraShake: {fileID: 519420036}
   cameraShakeTrauma: 0.03
   isCardUnavailableToPlay: 0

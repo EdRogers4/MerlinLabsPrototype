@@ -11,6 +11,7 @@ public class CardSpawner : MonoBehaviour
     [SerializeField] private CardsLibrary scriptCardsLibrary;
     [SerializeField] private Canvas canvas;
     [SerializeField] private int[] cardsToSpawn;
+    [SerializeField] private List<int> listDeck;
     private GameObject newCard;
 
     private void Start()
@@ -20,6 +21,21 @@ public class CardSpawner : MonoBehaviour
 
     public void SpawnCards()
     {
+        if (listDeck.Count <= 0)
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                listDeck.Add(i);
+            }
+        }
+
+        for (int i = 0; i < 5; i++)
+        {
+            var newCardIndex = listDeck[(Random.Range(0, listDeck.Count - 1))];
+            cardsToSpawn[i] = newCardIndex;
+            listDeck.Remove(newCardIndex);
+        }
+
         for (int i = 0; i < 5; i++)
         {
             newCard = Instantiate(prefabCard, spawnPointCard.position, spawnPointCard.rotation);
