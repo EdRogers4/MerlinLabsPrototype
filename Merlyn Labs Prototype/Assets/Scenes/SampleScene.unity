@@ -2382,7 +2382,7 @@ MonoBehaviour:
   scriptCardPositioner: {fileID: 519420033}
   scriptCardsLibrary: {fileID: 519420037}
   canvas: {fileID: 325884292}
-  cardsToSpawn: 0000000001000000020000000300000000000000
+  cardsToSpawn: 0000000001000000020000000300000005000000
 --- !u!114 &519420035
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2399,7 +2399,9 @@ MonoBehaviour:
   scriptCardSpawner: {fileID: 519420034}
   scriptCardsLibrary: {fileID: 519420037}
   isPlantFeet: 0
+  isHiltPunch: 0
   modifierPlantFeet: 2
+  modifierHiltPunch: 6
   scriptPerlinCameraShake: {fileID: 519420036}
   cameraShakeTrauma: 0.03
   isCardUnavailableToPlay: 0
@@ -2490,7 +2492,7 @@ MonoBehaviour:
   - Gain 5 Vengeance and deal 6 damage.
   - Gain 2 defense.  Doubled each use for the remainder of combat.
   - Deal damage equal to your defense
-  - Deal 6 damage.  Lower this cards damage by 1 each use during this combat
+  - Deal 6 damage.  Lower this cards damage by 1 each use during this combat.
   - Gain 6 defense X times.
   - Deal 6 damage X times to a random enemy
   - Deal 7 damage twice.

@@ -35,6 +35,10 @@ public class CardsLibrary : MonoBehaviour
                 scriptGameManager.isHiltPunch = true;
                 scriptGameManager.PlayerAttack(scriptGameManager.modifierHiltPunch, enemyToAttack);
                 break;
+            case 6:
+                scriptGameManager.isKnightsResolve = true;
+                StartCoroutine(scriptGameManager.GainArmor(5));
+                break;
 
         }
     }

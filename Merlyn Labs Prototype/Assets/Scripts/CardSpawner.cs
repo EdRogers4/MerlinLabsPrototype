@@ -32,7 +32,16 @@ public class CardSpawner : MonoBehaviour
             thisCard.scriptCardPositioner = scriptCardPositioner;
             thisCard.scriptCardsLibrary = scriptCardsLibrary;
             thisCard.canvas = canvas;
-            thisCard.textEnergyCost.text = "" + scriptCardsLibrary.energyCost[cardsToSpawn[i]];
+
+            if (scriptCardsLibrary.isXCost[thisCard.cardIndex])
+            {
+                thisCard.textEnergyCost.text = "X";
+            }
+            else
+            {
+                thisCard.textEnergyCost.text = "" + scriptCardsLibrary.energyCost[cardsToSpawn[i]];
+            }
+
             thisCard.textCardName.text = scriptCardsLibrary.cardName[cardsToSpawn[i]];
             thisCard.textCardDescription.text = scriptCardsLibrary.cardDescription[cardsToSpawn[i]];
         }

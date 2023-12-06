@@ -12,6 +12,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private CardsLibrary scriptCardsLibrary;
     public bool isPlantFeet;
     public bool isHiltPunch;
+    public bool isKnightsResolve;
+    public bool isFlurry;
     public int modifierPlantFeet;
     public int modifierHiltPunch;
 
@@ -243,6 +245,11 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator GainArmor(int defense)
     {
+        if (isKnightsResolve)
+        {
+            UseEnergy(1);
+        }
+
         for (int i = 0; i < defense; i++)
         {
             playerArmor += 1;
@@ -263,7 +270,20 @@ public class GameManager : MonoBehaviour
             scriptCardsLibrary.cardDescription[3] = "Gain " + modifierPlantFeet + " defense.  Doubled each use for the remainder of combat.";
         }
 
-        CheckCardToPlayStatus();
+        if (isKnightsResolve && playerEnergy > 0)
+        {
+            yield return new WaitForSeconds(1.0f);
+            StartCoroutine(GainArmor(6));
+        }
+        else
+        {
+            if (isKnightsResolve)
+            {
+                isKnightsResolve = false;
+            }
+
+            CheckCardToPlayStatus();
+        }
     }
 
     public IEnumerator GainVengeance(int vengeance, int enemyTargeted)
