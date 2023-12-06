@@ -27,6 +27,7 @@ public class CardPositioner : MonoBehaviour
     [SerializeField] private float speedRotateHighlighted;
     [SerializeField] private Transform transformCurrentCard;
     [SerializeField] private Transform transformCurrentTarget;
+    [SerializeField] private GameObject[] enemyHighlight;
 
     void Start()
     {
@@ -35,11 +36,22 @@ public class CardPositioner : MonoBehaviour
 
     void Update()
     {
+        Vector3 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+        if ((worldPosition.x >= 3.8f && worldPosition.x <= 8.6f && worldPosition.y >= -2.3f && worldPosition.y <= 4.7f) && !enemyHighlight[0].active)
+        {
+            enemyHighlight[0].SetActive(true);
+        }
+
+
+        if ((worldPosition.x >= -0.9f && worldPosition.x <= 3.38f && worldPosition.y >= -2.3f && worldPosition.y <= 4.7f) && !enemyHighlight[1].active)
+        {
+            enemyHighlight[1].SetActive(true);
+        }
 
         if ((Input.GetMouseButtonUp(0)) && isCardDrag)
         {
             isCardDrag = false;
-            Vector3 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             
             if (worldPosition.x > -7.3f && worldPosition.x < 7.8f && worldPosition.y > -0.37 && worldPosition.y < 2.7f)
             {
