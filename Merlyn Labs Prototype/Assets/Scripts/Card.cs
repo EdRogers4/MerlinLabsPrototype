@@ -7,7 +7,7 @@ using TMPro;
 public class Card : MonoBehaviour
 {
     public GameManager scriptGameManager;
-    public CardLibrary scriptCardLibrary;
+    public CardsLibrary scriptCardsLibrary;
     public CardPositioner scriptCardPositioner;
     public Canvas canvas;
     public int cardIndex;
@@ -44,12 +44,12 @@ public class Card : MonoBehaviour
 
     public void ReleaseCard()
     {
-        if (scriptCardLibrary.energyCost[cardIndex] <= scriptGameManager.playerEnergy)
+        if (scriptCardsLibrary.energyCost[cardIndex] <= scriptGameManager.playerEnergy)
         {
             scriptCardPositioner.listCardTransform.Remove(this.transform);
             scriptCardPositioner.AssignCurrentCardPositions(scriptCardPositioner.listCardTransform.Count);
-            scriptCardLibrary.PlayCard(cardIndex);
-            scriptGameManager.UseEnergy(scriptCardLibrary.energyCost[cardIndex]);
+            scriptCardsLibrary.PlayCard(cardIndex);
+            scriptGameManager.UseEnergy(scriptCardsLibrary.energyCost[cardIndex]);
             Destroy(this.gameObject);
         }
     }

@@ -8,7 +8,7 @@ public class CardSpawner : MonoBehaviour
     [SerializeField] private Transform spawnPointCard;
     [SerializeField] private GameManager scriptGameManager;
     [SerializeField] private CardPositioner scriptCardPositioner;
-    [SerializeField] private CardLibrary scriptCardLibrary;
+    [SerializeField] private CardsLibrary scriptCardsLibrary;
     [SerializeField] private Canvas canvas;
     [SerializeField] private int[] cardsToSpawn;
     private GameObject newCard;
@@ -30,11 +30,11 @@ public class CardSpawner : MonoBehaviour
             thisCard.cardIndex = cardsToSpawn[i];
             thisCard.scriptGameManager = scriptGameManager;
             thisCard.scriptCardPositioner = scriptCardPositioner;
-            thisCard.scriptCardLibrary = scriptCardLibrary;
+            thisCard.scriptCardsLibrary = scriptCardsLibrary;
             thisCard.canvas = canvas;
-            thisCard.textEnergyCost.text = "" + scriptCardLibrary.energyCost[cardsToSpawn[i]];
-            thisCard.textCardName.text = scriptCardLibrary.cardName[cardsToSpawn[i]];
-            thisCard.textCardDescription.text = scriptCardLibrary.cardDescription[cardsToSpawn[i]];
+            thisCard.textEnergyCost.text = "" + scriptCardsLibrary.energyCost[cardsToSpawn[i]];
+            thisCard.textCardName.text = scriptCardsLibrary.cardName[cardsToSpawn[i]];
+            thisCard.textCardDescription.text = scriptCardsLibrary.cardDescription[cardsToSpawn[i]];
         }
 
         scriptCardPositioner.isNoCardsHighlighted = true;
