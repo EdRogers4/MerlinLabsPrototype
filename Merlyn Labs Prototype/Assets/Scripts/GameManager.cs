@@ -49,10 +49,17 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Image[] enemyHealthFill;
     [SerializeField] private TextMeshProUGUI[] textEnemyHealth;
     [SerializeField] private Animator[] animatorEnemy;
+    [SerializeField] private bool[] isEnemySleep;
     private float enemyFillDecrease;
 
     [Header("Energy")]
     [SerializeField] private TextMeshProUGUI textPlayerEnergy;
+
+    [Header("Potions")]
+    public bool isUsePotion;
+    [SerializeField] private GameObject[] potions;
+    [SerializeField] private GameObject potionMenu;
+    private int selectedPotion;
 
     [Header("Test")]
     [SerializeField] private bool testDamageEnemy;
@@ -343,6 +350,41 @@ public class GameManager : MonoBehaviour
             enemyHealthFill[i].rectTransform.sizeDelta = new Vector2(250, enemyHealthFill[i].rectTransform.sizeDelta.y);
             textEnemyHealth[i].text = enemyHealth[i] + "/" + enemyHealthMax[i];
             isEnemyDead[i] = false;
+        }
+    }
+
+    public void TogglePotionMenu(int currentPotion)
+    {
+        selectedPotion = currentPotion;
+
+        if (potionMenu.activeSelf)
+        {
+            potionMenu.SetActive(false);
+        }
+        else
+        {
+            potionMenu.SetActive(true);
+        }
+    }
+
+    public void UsePotion()
+    {
+        isUsePotion = true;
+    }
+
+    public void DiscardPotion()
+    {
+        Destroy(potions[selectedPotion]);
+        TogglePotionMenu(0);
+    }
+
+    public void PutEnemyToSleep(int index)
+    {
+        if (isUsePotion)
+        {
+            TogglePotionMenu(0);
+            isUsePotion = false;
+            isEnemySleep[index] = true;
         }
     }
 

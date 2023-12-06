@@ -136,10 +136,13 @@ public class CardPositioner : MonoBehaviour
 
     public void HighlightCard(int index)
     {
-        isNoCardsHighlighted = false;
-        currentCardHighlighted = index;
-        transformCurrentCard = listCardTransform[index - 1];
-        transformCurrentTarget = listPositionsHighlighted[index - 1];
+        if (!scriptGameManager.isUsePotion)
+        {
+            isNoCardsHighlighted = false;
+            currentCardHighlighted = index;
+            transformCurrentCard = listCardTransform[index - 1];
+            transformCurrentTarget = listPositionsHighlighted[index - 1];
+        }
     }
 
     public void UnhighlightCard()
