@@ -28,6 +28,14 @@ public class CardsLibrary : MonoBehaviour
                 scriptGameManager.isPlantFeet = true;
                 StartCoroutine(scriptGameManager.GainArmor(scriptGameManager.modifierPlantFeet));
                 break;
+            case 4:
+                scriptGameManager.PlayerAttack(scriptGameManager.playerArmor, enemyToAttack);
+                break;
+            case 5:
+                scriptGameManager.isHiltPunch = true;
+                scriptGameManager.PlayerAttack(scriptGameManager.modifierHiltPunch, enemyToAttack);
+                break;
+
         }
     }
 }

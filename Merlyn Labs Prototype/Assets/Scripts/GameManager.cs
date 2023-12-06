@@ -11,7 +11,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private CardSpawner scriptCardSpawner;
     [SerializeField] private CardsLibrary scriptCardsLibrary;
     public bool isPlantFeet;
+    public bool isHiltPunch;
     public int modifierPlantFeet;
+    public int modifierHiltPunch;
 
     [Header("Camera")]
     [SerializeField] private PerlinCameraShake scriptPerlinCameraShake;
@@ -22,7 +24,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private bool isEndTurnUnavailable;
 
     [Header("Player")]
-    [SerializeField] private int playerArmor;
+    public int playerArmor;
     [SerializeField] private int playerVengeance;
     [SerializeField] private int playerHealth;
     [SerializeField] private int playerHealthMax;
@@ -205,6 +207,17 @@ public class GameManager : MonoBehaviour
                 }
 
                 break;
+            }
+        }
+
+        if (isHiltPunch)
+        {
+            isHiltPunch = false;
+
+            if (modifierHiltPunch > 1)
+            {
+                modifierHiltPunch -= 1;
+                scriptCardsLibrary.cardDescription[5] = "Deal " + modifierHiltPunch + " damage.  Lower this cards damage by 1 each use during this combat.";
             }
         }
 
