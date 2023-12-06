@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class CardPositioner : MonoBehaviour
 {
@@ -10,7 +11,6 @@ public class CardPositioner : MonoBehaviour
     public bool isNoCardsHighlighted;
     public int currentCardHighlighted;
     public int enemyTargeted;
-    public GameObject[] enemyHighlight;
     public List<Transform> listCardTransform;
     [SerializeField] private GameObject[] beneathCardAreas;
     [SerializeField] private List<Transform> listPositionsDefault;
@@ -29,52 +29,16 @@ public class CardPositioner : MonoBehaviour
     [SerializeField] private float speedRotateHighlighted;
     [SerializeField] private Transform transformCurrentCard;
     [SerializeField] private Transform transformCurrentTarget;
+    [SerializeField] private Image[] enemyHighlight;
+    [SerializeField] private Sprite spriteEnemyTargeted;
 
     void Start()
     {
-        
     }
 
     void Update()
     {
         Vector3 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
-        if (worldPosition.x >= 3.8f && worldPosition.x <= 8.6f && worldPosition.y >= -2.3f && worldPosition.y <= 4.7f)
-        {
-            if (!enemyHighlight[0].active)
-            {
-                enemyHighlight[0].SetActive(true);
-                enemyTargeted = 1;
-            }
-        }
-        else
-        {
-            enemyHighlight[0].SetActive(false);
-
-            if (enemyTargeted != 2)
-            {
-                enemyTargeted = 0;
-            }
-        }
-
-
-        if (worldPosition.x >= -0.9f && worldPosition.x <= 3.38f && worldPosition.y >= -2.3f && worldPosition.y <= 4.7f)
-        {
-            if (!enemyHighlight[1].active)
-            {
-                enemyHighlight[1].SetActive(true);
-                enemyTargeted = 2;
-            }
-        }
-        else
-        {
-            enemyHighlight[1].SetActive(false);
-
-            if (enemyTargeted != 1)
-            {
-                enemyTargeted = 0;
-            }
-        }
 
         if ((Input.GetMouseButtonUp(0)) && isCardDrag)
         {
@@ -122,6 +86,49 @@ public class CardPositioner : MonoBehaviour
                 float step = speedMoveHighlighted * Time.deltaTime;
                 listCardTransform[i].position = Vector2.MoveTowards(listCardTransform[i].position, listPositionsDefault[i].position, step);
                 listCardTransform[i].rotation = Quaternion.Slerp(listCardTransform[i].rotation, listPositionsDefault[i].rotation, speedRotateHighlighted * Time.deltaTime);
+            }
+        }
+
+        if (worldPosition.x >= 3.8f && worldPosition.x <= 8.6f && worldPosition.y >= -2.3f && worldPosition.y <= 4.7f)
+        {
+            if (enemyTargeted != 1)
+            {
+                enemyHighlight[0].sprite = spriteEnemyTargeted;
+                enemyTargeted = 1;
+            }
+        }
+        else
+        {
+            if (spriteEnemyTargeted != null)
+            {
+                enemyHighlight[0].sprite = null;
+            }
+
+            if (enemyTargeted != 2)
+            {
+                enemyTargeted = 0;
+            }
+        }
+
+
+        if (worldPosition.x >= -0.9f && worldPosition.x <= 3.38f && worldPosition.y >= -2.3f && worldPosition.y <= 4.7f)
+        {
+            if (enemyTargeted != 2)
+            {
+                enemyHighlight[1].sprite = spriteEnemyTargeted;
+                enemyTargeted = 2;
+            }
+        }
+        else
+        {
+            if (spriteEnemyTargeted != null)
+            {
+                enemyHighlight[1].sprite = null;
+            }
+
+            if (enemyTargeted != 1)
+            {
+                enemyTargeted = 0;
             }
         }
     }
