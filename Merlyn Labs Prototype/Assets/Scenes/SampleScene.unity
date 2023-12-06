@@ -2238,7 +2238,7 @@ MonoBehaviour:
   spawnPointCard: {fileID: 1545970135}
   scriptGameManager: {fileID: 519420035}
   scriptCardPositioner: {fileID: 519420033}
-  scriptCardLibrary: {fileID: 519420037}
+  scriptCardsLibrary: {fileID: 519420037}
   canvas: {fileID: 325884292}
   cardsToSpawn: 0000000001000000000000000000000000000000
 --- !u!114 &519420035
@@ -2318,36 +2318,36 @@ MonoBehaviour:
   m_GameObject: {fileID: 519420028}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f16f95a702952e54a9397b987cf998aa, type: 3}
+  m_Script: {fileID: 11500000, guid: 73da5749b2c03cc45b6fbd8ed414fae1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   enemyToAttack: 0
-  energyCost: 01000000010000000200000001000000000000000000000000000000000000000200000000000000
+  energyCost: 01000000010000000200000000000000010000000000000000000000000000000200000001000000
   cardName:
   - Attack
-  - Defend
+  - Defense
   - Reprisal
+  - Plant Feet
   - Shield Bash
   - Hilt Punch
-  - Bluster
   - Knight's Resolve
   - Flurry
   - Roundhouse
-  - Plant Feet
+  - Attack
   cardDescription:
   - Deal 5 Damage.
   - Gain 5 Defense.
   - Gain 5 Vengeance and deal 6 damage.
-  - Deal damage equal to your defense.
-  - Deal 6 damage.  Lower this card's damage by 1 each use during this combat.
-  - Gain 2 Energy.  Start next turn with 1 less energy.
-  - Gain 6 defense X times.
-  - Deal 6 damage X times to random enemies.
-  - Deal 7 damage twice.
   - Gain 2 defense.  Doubled each use for the remainder of combat.
+  - Deal damage equal to your defense
+  - Deal 6 damage.  Lower this cards damage by 1 each use during this combat
+  - Gain 6 defense X times.
+  - Deal 6 damage X times to a random enemy
+  - Deal 7 damage twice.
+  - Deal 5 damage.
   isXCost: 00000000000001010000
-  isTargetEnemyCard: 01000101010000000100
-  scriptGameManager: {fileID: 519420035}
+  isTargetEnemyCard: 01000100010100000101
+  scriptGameManager: {fileID: 0}
 --- !u!1 &527161931
 GameObject:
   m_ObjectHideFlags: 0
