@@ -12,6 +12,7 @@ public class CardPositioner : MonoBehaviour
     public int currentCardHighlighted;
     public int enemyTargeted;
     public List<Transform> listCardTransform;
+    [SerializeField] private GameManager scriptGameManager;
     [SerializeField] private GameObject[] beneathCardAreas;
     [SerializeField] private List<Transform> listPositionsDefault;
     [SerializeField] private List<Transform> listPositionsHighlighted;
@@ -89,7 +90,7 @@ public class CardPositioner : MonoBehaviour
             }
         }
 
-        if (worldPosition.x >= 3.8f && worldPosition.x <= 8.6f && worldPosition.y >= -2.3f && worldPosition.y <= 4.7f)
+        if (worldPosition.x >= 3.8f && worldPosition.x <= 8.6f && worldPosition.y >= -2.3f && worldPosition.y <= 4.7f && !scriptGameManager.isEnemyDead[0])
         {
             if (enemyTargeted != 1)
             {
@@ -111,7 +112,7 @@ public class CardPositioner : MonoBehaviour
         }
 
 
-        if (worldPosition.x >= -0.9f && worldPosition.x <= 3.38f && worldPosition.y >= -2.3f && worldPosition.y <= 4.7f)
+        if (worldPosition.x >= -0.9f && worldPosition.x <= 3.38f && worldPosition.y >= -2.3f && worldPosition.y <= 4.7f && !scriptGameManager.isEnemyDead[1])
         {
             if (enemyTargeted != 2)
             {

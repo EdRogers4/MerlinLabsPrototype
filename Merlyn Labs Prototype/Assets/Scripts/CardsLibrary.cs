@@ -21,6 +21,9 @@ public class CardsLibrary : MonoBehaviour
             case 1:
                 StartCoroutine(scriptGameManager.GainArmor(5));
                 break;
+            case 2:
+                StartCoroutine(scriptGameManager.GainVengeance(5, enemyToAttack));
+                break;
         }
     }
 }

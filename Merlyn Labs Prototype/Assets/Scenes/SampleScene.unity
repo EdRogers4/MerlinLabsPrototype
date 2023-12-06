@@ -868,11 +868,11 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1823323329}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 35, y: 35}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_SizeDelta: {x: 20, y: 20}
+  m_Pivot: {x: 1, y: 0}
 --- !u!114 &184810467
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -893,7 +893,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 50
+  m_text: '0
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
   m_sharedMaterial: {fileID: 2164040, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
@@ -927,7 +929,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 4
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 1024
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -2305,6 +2307,7 @@ MonoBehaviour:
   currentCardHighlighted: 0
   enemyTargeted: 0
   listCardTransform: []
+  scriptGameManager: {fileID: 519420035}
   beneathCardAreas:
   - {fileID: 1976918887}
   - {fileID: 1202762576}
@@ -2379,7 +2382,7 @@ MonoBehaviour:
   scriptCardPositioner: {fileID: 519420033}
   scriptCardsLibrary: {fileID: 519420037}
   canvas: {fileID: 325884292}
-  cardsToSpawn: 0000000001000000000000000000000000000000
+  cardsToSpawn: 0000000001000000020000000000000000000000
 --- !u!114 &519420035
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2396,15 +2399,21 @@ MonoBehaviour:
   scriptCardSpawner: {fileID: 519420034}
   scriptPerlinCameraShake: {fileID: 519420036}
   cameraShakeTrauma: 0.03
+  isCardUnavailableToPlay: 0
+  isEndTurnUnavailable: 0
   playerArmor: 0
+  playerVengeance: 0
   playerHealth: 70
   playerHealthMax: 70
   playerHealthFill: {fileID: 1120563851}
   armorDisplay: {fileID: 827804818}
+  vengeanceDisplay: {fileID: 1823323328}
   textPlayerArmor: {fileID: 822965706}
+  textPlayerVengeance: {fileID: 184810467}
   textPlayerHealth: {fileID: 928716529}
   animatorPlayer: {fileID: 1210177150}
   playerEnergy: 0
+  isEnemyDead: 0000
   enemyDamage: 0c0000000c000000
   enemyHealth: 3c0000003c000000
   enemyHealthMax: 3c0000003c000000
@@ -6354,7 +6363,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1823323329
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6993,7 +7002,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 1.12, y: 0}
   m_SizeDelta: {x: 35, y: 35}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2145655379

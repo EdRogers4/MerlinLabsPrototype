@@ -44,12 +44,13 @@ public class Card : MonoBehaviour
 
     public void ReleaseCard()
     {
-        if (scriptCardsLibrary.energyCost[cardIndex] <= scriptGameManager.playerEnergy)
+        if (scriptCardsLibrary.energyCost[cardIndex] <= scriptGameManager.playerEnergy && !scriptGameManager.isCardUnavailableToPlay)
         {
             scriptCardPositioner.listCardTransform.Remove(this.transform);
             scriptCardPositioner.AssignCurrentCardPositions(scriptCardPositioner.listCardTransform.Count);
             scriptCardsLibrary.PlayCard(cardIndex, scriptCardPositioner.enemyTargeted - 1);
             scriptGameManager.UseEnergy(scriptCardsLibrary.energyCost[cardIndex]);
+            scriptGameManager.isCardUnavailableToPlay = true;
             Destroy(this.gameObject);
         }
     }

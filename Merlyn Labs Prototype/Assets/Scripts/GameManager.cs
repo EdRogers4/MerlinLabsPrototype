@@ -14,19 +14,27 @@ public class GameManager : MonoBehaviour
     [SerializeField] private PerlinCameraShake scriptPerlinCameraShake;
     [SerializeField] private float cameraShakeTrauma;
 
+    [Header("Game Status")]
+    public bool isCardUnavailableToPlay;
+    [SerializeField] private bool isEndTurnUnavailable;
+
     [Header("Player")]
     [SerializeField] private int playerArmor;
+    [SerializeField] private int playerVengeance;
     [SerializeField] private int playerHealth;
     [SerializeField] private int playerHealthMax;
     [SerializeField] private Image playerHealthFill;
     [SerializeField] private GameObject armorDisplay;
+    [SerializeField] private GameObject vengeanceDisplay;
     [SerializeField] private TextMeshProUGUI textPlayerArmor;
+    [SerializeField] private TextMeshProUGUI textPlayerVengeance;
     [SerializeField] private TextMeshProUGUI textPlayerHealth;
     [SerializeField] private Animator animatorPlayer;
     public int playerEnergy;
     private float playerFillDecrease;
 
     [Header("Enemy")]
+    public bool[] isEnemyDead;
     [SerializeField] private int[] enemyDamage;
     [SerializeField] private int[] enemyHealth;
     [SerializeField] private int[] enemyHealthMax;
@@ -62,73 +70,90 @@ public class GameManager : MonoBehaviour
 
     public void EndTurn()
     {
-        for (int i = scriptCardPositioner.listCardTransform.Count - 1; i >= 0; i--)
+        if (!isEndTurnUnavailable)
         {
-            var thisCard = scriptCardPositioner.listCardTransform[i].gameObject;
-            scriptCardPositioner.listCardTransform.Remove(scriptCardPositioner.listCardTransform[i]);
-            scriptCardPositioner.AssignCurrentCardPositions(scriptCardPositioner.listCardTransform.Count);
-            Destroy(thisCard);
-        }
+            isEndTurnUnavailable = true;
 
-        StartCoroutine(EnemyAttack(enemyDamage[0]));
+            for (int i = scriptCardPositioner.listCardTransform.Count - 1; i >= 0; i--)
+            {
+                var thisCard = scriptCardPositioner.listCardTransform[i].gameObject;
+                scriptCardPositioner.listCardTransform.Remove(scriptCardPositioner.listCardTransform[i]);
+                scriptCardPositioner.AssignCurrentCardPositions(scriptCardPositioner.listCardTransform.Count);
+                Destroy(thisCard);
+            }
+
+            StartCoroutine(EnemyAttack(enemyDamage[0]));
+        }
+    }
+
+    private void CheckCardToPlayStatus()
+    {
+        if (isCardUnavailableToPlay)
+        {
+            isCardUnavailableToPlay = false;
+        }
     }
 
     private IEnumerator EnemyAttack(int damage)
     {
         for (int h = 0; h < 2; h++)
         {
-            yield return new WaitForSeconds(1.0f);
-            animatorEnemy[h].SetBool("isAttack", true);
-            yield return new WaitForSeconds(0.75f);
-            animatorPlayer.SetBool("isTakeDamage", true);
+            if (!isEnemyDead[h])
+            {
+                yield return new WaitForSeconds(1.0f);
+                animatorEnemy[h].SetBool("isAttack", true);
+                yield return new WaitForSeconds(0.75f);
+                animatorPlayer.SetBool("isTakeDamage", true);
 
-            if (playerArmor <= 0)
-            {
-                for (int i = 0; i < damage; i++)
+                if (playerArmor <= 0)
                 {
-                    playerHealth -= 1;
-                    var newWidth = playerHealthFill.rectTransform.sizeDelta.x - playerFillDecrease;
-                    playerHealthFill.rectTransform.sizeDelta = new Vector2(newWidth, playerHealthFill.rectTransform.sizeDelta.y);
-                    yield return new WaitForSeconds(0.03f);
-                    textPlayerHealth.text = playerHealth + "/" + playerHealthMax;
-                }
-            }
-            else
-            {
-                for (int i = 0; i < damage; i++)
-                {
-                    if (playerArmor <= 0)
+                    for (int i = 0; i < damage; i++)
                     {
-                        var remainingDamage = enemyDamage[h] - (i + 1);
-
-                        for (int j = 0; j < remainingDamage; j++)
+                        playerHealth -= 1;
+                        var newWidth = playerHealthFill.rectTransform.sizeDelta.x - playerFillDecrease;
+                        playerHealthFill.rectTransform.sizeDelta = new Vector2(newWidth, playerHealthFill.rectTransform.sizeDelta.y);
+                        yield return new WaitForSeconds(0.03f);
+                        textPlayerHealth.text = playerHealth + "/" + playerHealthMax;
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < damage; i++)
+                    {
+                        if (playerArmor <= 0)
                         {
-                            playerHealth -= 1;
-                            var newWidth = playerHealthFill.rectTransform.sizeDelta.x - playerFillDecrease;
-                            playerHealthFill.rectTransform.sizeDelta = new Vector2(newWidth, playerHealthFill.rectTransform.sizeDelta.y);
-                            yield return new WaitForSeconds(0.03f);
-                            textPlayerHealth.text = playerHealth + "/" + playerHealthMax;
+                            var remainingDamage = enemyDamage[h] - (i + 1);
+
+                            for (int j = 0; j < remainingDamage; j++)
+                            {
+                                playerHealth -= 1;
+                                var newWidth = playerHealthFill.rectTransform.sizeDelta.x - playerFillDecrease;
+                                playerHealthFill.rectTransform.sizeDelta = new Vector2(newWidth, playerHealthFill.rectTransform.sizeDelta.y);
+                                yield return new WaitForSeconds(0.03f);
+                                textPlayerHealth.text = playerHealth + "/" + playerHealthMax;
+                            }
+                            break;
                         }
-                        break;
+
+                        playerArmor -= 1;
+                        textPlayerArmor.text = playerArmor + "";
+
+                        if (playerArmor <= 0)
+                        {
+                            armorDisplay.SetActive(false);
+                        }
+
+                        yield return new WaitForSeconds(0.1f);
                     }
-
-                    playerArmor -= 1;
-                    textPlayerArmor.text = playerArmor + "";
-
-                    if (playerArmor <= 0)
-                    {
-                        armorDisplay.SetActive(false);
-                    }
-
-                    yield return new WaitForSeconds(0.1f);
                 }
-            }
 
-            yield return new WaitForSeconds(1.25f);
+                yield return new WaitForSeconds(1.25f);
+            }
         }
 
         scriptCardSpawner.SpawnCards();
         FillEnergy();
+        isEndTurnUnavailable = false;
     }
 
     public void PlayerAttack(int damage, int enemyToAttack)
@@ -148,8 +173,55 @@ public class GameManager : MonoBehaviour
             enemyHealth[enemyToAttack] -= 1;
             var newWidth = enemyHealthFill[enemyToAttack].rectTransform.sizeDelta.x - enemyFillDecrease;
             enemyHealthFill[enemyToAttack].rectTransform.sizeDelta = new Vector2(newWidth, enemyHealthFill[enemyToAttack].rectTransform.sizeDelta.y);
-            yield return new WaitForSeconds(0.03f);
             textEnemyHealth[enemyToAttack].text = enemyHealth[enemyToAttack] + "/" + enemyHealthMax[enemyToAttack];
+            yield return new WaitForSeconds(0.1f);
+
+            if (enemyHealth[enemyToAttack] <= 0)
+            {
+                animatorEnemy[enemyToAttack].SetBool("isDeath", true);
+                isEnemyDead[enemyToAttack] = true;
+
+                if (enemyToAttack == 0)
+                {
+                    scriptCardPositioner.enemyTargeted = 2;
+                }
+                else
+                {
+                    scriptCardPositioner.enemyTargeted = 1;
+                }
+
+                if (playerVengeance > 0)
+                {
+                    yield return new WaitForSeconds(2.0f);
+                    StartCoroutine(GainHealth());
+                }
+
+                if (isEnemyDead[0] && isEnemyDead[1])
+                {
+                    StartCoroutine(RespawnEnemies());
+                }
+
+                break;
+            }
+        }
+
+        CheckCardToPlayStatus();
+    }
+
+    public IEnumerator GainHealth()
+    {
+        for (int i = 0; i < playerVengeance; i++)
+        {
+            if (playerHealth >= playerHealthMax)
+            {
+                break;
+            }
+
+            playerHealth += 1;
+            var newWidth = playerHealthFill.rectTransform.sizeDelta.x + playerFillDecrease;
+            playerHealthFill.rectTransform.sizeDelta = new Vector2(newWidth, playerHealthFill.rectTransform.sizeDelta.y);
+            textPlayerHealth.text = playerHealth + "/" + playerHealthMax;
+            yield return new WaitForSeconds(0.03f);
         }
     }
 
@@ -166,6 +238,41 @@ public class GameManager : MonoBehaviour
 
             textPlayerArmor.text = "" + playerArmor;
             yield return new WaitForSeconds(0.1f);
+        }
+
+        CheckCardToPlayStatus();
+    }
+
+    public IEnumerator GainVengeance(int vengeance, int enemyTargeted)
+    {
+        for (int i = 0; i < vengeance; i++)
+        {
+            playerVengeance += 1;
+
+            if (!vengeanceDisplay.active)
+            {
+                vengeanceDisplay.SetActive(true);
+            }
+
+            textPlayerVengeance.text = "" + playerVengeance;
+            yield return new WaitForSeconds(0.1f);
+        }
+
+        yield return new WaitForSeconds(1.25f);
+        PlayerAttack(6, enemyTargeted);
+    }
+
+    private IEnumerator RespawnEnemies()
+    {
+        yield return new WaitForSeconds(0.5f);
+
+        for (int i = 0; i < 2; i++)
+        {
+            animatorEnemy[i].SetBool("isDeath", false);
+            enemyHealth[i] = enemyHealthMax[i];
+            enemyHealthFill[i].rectTransform.sizeDelta = new Vector2(250, enemyHealthFill[i].rectTransform.sizeDelta.y);
+            textEnemyHealth[i].text = enemyHealth[i] + "/" + enemyHealthMax[i];
+            isEnemyDead[i] = false;
         }
     }
 
