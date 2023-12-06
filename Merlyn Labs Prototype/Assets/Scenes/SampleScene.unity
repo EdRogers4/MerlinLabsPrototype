@@ -2382,7 +2382,7 @@ MonoBehaviour:
   scriptCardPositioner: {fileID: 519420033}
   scriptCardsLibrary: {fileID: 519420037}
   canvas: {fileID: 325884292}
-  cardsToSpawn: 0000000001000000020000000000000000000000
+  cardsToSpawn: 0000000001000000020000000300000000000000
 --- !u!114 &519420035
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2397,6 +2397,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scriptCardPositioner: {fileID: 519420033}
   scriptCardSpawner: {fileID: 519420034}
+  scriptCardsLibrary: {fileID: 519420037}
+  isPlantFeet: 0
+  modifierPlantFeet: 2
   scriptPerlinCameraShake: {fileID: 519420036}
   cameraShakeTrauma: 0.03
   isCardUnavailableToPlay: 0
@@ -2762,8 +2765,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 16
+  m_fontSizeBase: 16
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

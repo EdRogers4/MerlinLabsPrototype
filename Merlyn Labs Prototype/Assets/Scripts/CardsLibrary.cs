@@ -24,6 +24,10 @@ public class CardsLibrary : MonoBehaviour
             case 2:
                 StartCoroutine(scriptGameManager.GainVengeance(5, enemyToAttack));
                 break;
+            case 3:
+                scriptGameManager.isPlantFeet = true;
+                StartCoroutine(scriptGameManager.GainArmor(scriptGameManager.modifierPlantFeet));
+                break;
         }
     }
 }

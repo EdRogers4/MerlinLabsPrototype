@@ -9,6 +9,9 @@ public class GameManager : MonoBehaviour
     [Header("Cards")]
     [SerializeField] private CardPositioner scriptCardPositioner;
     [SerializeField] private CardSpawner scriptCardSpawner;
+    [SerializeField] private CardsLibrary scriptCardsLibrary;
+    public bool isPlantFeet;
+    public int modifierPlantFeet;
 
     [Header("Camera")]
     [SerializeField] private PerlinCameraShake scriptPerlinCameraShake;
@@ -238,6 +241,13 @@ public class GameManager : MonoBehaviour
 
             textPlayerArmor.text = "" + playerArmor;
             yield return new WaitForSeconds(0.1f);
+        }
+
+        if (isPlantFeet)
+        {
+            isPlantFeet = false;
+            modifierPlantFeet = modifierPlantFeet * 2;
+            scriptCardsLibrary.cardDescription[3] = "Gain " + modifierPlantFeet + " defense.  Doubled each use for the remainder of combat.";
         }
 
         CheckCardToPlayStatus();
