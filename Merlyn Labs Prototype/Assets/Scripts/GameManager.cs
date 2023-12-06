@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
     public bool isFlurry;
     public int modifierPlantFeet;
     public int modifierHiltPunch;
+    public int counterRoundhouse;
 
     [Header("Camera")]
     [SerializeField] private PerlinCameraShake scriptPerlinCameraShake;
@@ -176,6 +177,11 @@ public class GameManager : MonoBehaviour
             UseEnergy(1);
         }
 
+        if (counterRoundhouse > 0)
+        {
+            counterRoundhouse -= 1;
+        }
+
         yield return new WaitForSeconds(0.75f);
         animatorEnemy[enemyToAttack].SetBool("isTakeDamage", true);
 
@@ -231,6 +237,10 @@ public class GameManager : MonoBehaviour
         if (isFlurry && !isEnemyDead[enemyToAttack] && playerEnergy > 0)
         {
             PlayerAttack(6, enemyToAttack);
+        }
+        else if (counterRoundhouse > 0 && !isEnemyDead[enemyToAttack])
+        {
+            PlayerAttack(7, enemyToAttack);
         }
         else
         {

@@ -43,6 +43,10 @@ public class CardsLibrary : MonoBehaviour
                 scriptGameManager.isFlurry = true;
                 scriptGameManager.PlayerAttack(6, enemyToAttack);
                 break;
+            case 8:
+                scriptGameManager.counterRoundhouse = 2;
+                scriptGameManager.PlayerAttack(7, enemyToAttack);
+                break;
         }
     }
 }
