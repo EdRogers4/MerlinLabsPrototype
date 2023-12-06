@@ -48,7 +48,7 @@ public class Card : MonoBehaviour
         {
             scriptCardPositioner.listCardTransform.Remove(this.transform);
             scriptCardPositioner.AssignCurrentCardPositions(scriptCardPositioner.listCardTransform.Count);
-            scriptCardsLibrary.PlayCard(cardIndex);
+            scriptCardsLibrary.PlayCard(cardIndex, scriptCardPositioner.enemyTargeted - 1);
             scriptGameManager.UseEnergy(scriptCardsLibrary.energyCost[cardIndex]);
             Destroy(this.gameObject);
         }

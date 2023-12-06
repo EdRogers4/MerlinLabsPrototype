@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class CardsLibrary : MonoBehaviour
 {
-    public int enemyToAttack;
     public int[] energyCost;
     public string[] cardName;
     public string[] cardDescription;
@@ -12,7 +11,7 @@ public class CardsLibrary : MonoBehaviour
     public bool[] isTargetEnemyCard;
     [SerializeField] private GameManager scriptGameManager;
 
-    public void PlayCard(int cardIndex)
+    public void PlayCard(int cardIndex, int enemyToAttack)
     {
         switch (cardIndex)
         {

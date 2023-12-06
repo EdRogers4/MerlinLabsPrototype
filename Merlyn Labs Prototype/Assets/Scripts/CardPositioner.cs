@@ -9,6 +9,8 @@ public class CardPositioner : MonoBehaviour
     public bool isCardDrag;
     public bool isNoCardsHighlighted;
     public int currentCardHighlighted;
+    public int enemyTargeted;
+    public GameObject[] enemyHighlight;
     public List<Transform> listCardTransform;
     [SerializeField] private GameObject[] beneathCardAreas;
     [SerializeField] private List<Transform> listPositionsDefault;
@@ -27,7 +29,6 @@ public class CardPositioner : MonoBehaviour
     [SerializeField] private float speedRotateHighlighted;
     [SerializeField] private Transform transformCurrentCard;
     [SerializeField] private Transform transformCurrentTarget;
-    [SerializeField] private GameObject[] enemyHighlight;
 
     void Start()
     {
@@ -38,15 +39,41 @@ public class CardPositioner : MonoBehaviour
     {
         Vector3 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-        if ((worldPosition.x >= 3.8f && worldPosition.x <= 8.6f && worldPosition.y >= -2.3f && worldPosition.y <= 4.7f) && !enemyHighlight[0].active)
+        if (worldPosition.x >= 3.8f && worldPosition.x <= 8.6f && worldPosition.y >= -2.3f && worldPosition.y <= 4.7f)
         {
-            enemyHighlight[0].SetActive(true);
+            if (!enemyHighlight[0].active)
+            {
+                enemyHighlight[0].SetActive(true);
+                enemyTargeted = 1;
+            }
+        }
+        else
+        {
+            enemyHighlight[0].SetActive(false);
+
+            if (enemyTargeted != 2)
+            {
+                enemyTargeted = 0;
+            }
         }
 
 
-        if ((worldPosition.x >= -0.9f && worldPosition.x <= 3.38f && worldPosition.y >= -2.3f && worldPosition.y <= 4.7f) && !enemyHighlight[1].active)
+        if (worldPosition.x >= -0.9f && worldPosition.x <= 3.38f && worldPosition.y >= -2.3f && worldPosition.y <= 4.7f)
         {
-            enemyHighlight[1].SetActive(true);
+            if (!enemyHighlight[1].active)
+            {
+                enemyHighlight[1].SetActive(true);
+                enemyTargeted = 2;
+            }
+        }
+        else
+        {
+            enemyHighlight[1].SetActive(false);
+
+            if (enemyTargeted != 1)
+            {
+                enemyTargeted = 0;
+            }
         }
 
         if ((Input.GetMouseButtonUp(0)) && isCardDrag)
