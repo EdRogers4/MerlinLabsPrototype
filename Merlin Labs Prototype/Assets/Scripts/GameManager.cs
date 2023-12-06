@@ -27,12 +27,12 @@ public class GameManager : MonoBehaviour
     private float playerFillDecrease;
 
     [Header("Enemy")]
-    [SerializeField] private int enemyDamage;
-    [SerializeField] private int enemyHealth;
-    [SerializeField] private int enemyHealthMax;
-    [SerializeField] private Image enemyHealthFill;
-    [SerializeField] private TextMeshProUGUI textEnemyHealth;
-    [SerializeField] private Animator animatorEnemy;
+    [SerializeField] private int[] enemyDamage;
+    [SerializeField] private int[] enemyHealth;
+    [SerializeField] private int[] enemyHealthMax;
+    [SerializeField] private Image[] enemyHealthFill;
+    [SerializeField] private TextMeshProUGUI[] textEnemyHealth;
+    [SerializeField] private Animator[] animatorEnemy;
     private float enemyFillDecrease;
 
     [Header("Energy")]
@@ -44,7 +44,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         playerFillDecrease = 1f / playerHealthMax * playerHealthFill.rectTransform.sizeDelta.x;
-        enemyFillDecrease = 1f / enemyHealthMax * enemyHealthFill.rectTransform.sizeDelta.x;
+        enemyFillDecrease = 1f / enemyHealthMax[0] * enemyHealthFill[0].rectTransform.sizeDelta.x;
         FillEnergy();
     }
 
@@ -70,82 +70,86 @@ public class GameManager : MonoBehaviour
             Destroy(thisCard);
         }
 
-        StartCoroutine(EnemyAttack(enemyDamage));
+        StartCoroutine(EnemyAttack(enemyDamage[0]));
     }
 
     private IEnumerator EnemyAttack(int damage)
     {
-        yield return new WaitForSeconds(1.0f);
-        animatorEnemy.SetBool("isAttack", true);
-        yield return new WaitForSeconds(0.75f);
-        animatorPlayer.SetBool("isTakeDamage", true);
+        for (int h = 0; h < 2; h++)
+        {
+            yield return new WaitForSeconds(1.0f);
+            animatorEnemy[h].SetBool("isAttack", true);
+            yield return new WaitForSeconds(0.75f);
+            animatorPlayer.SetBool("isTakeDamage", true);
 
-        if (playerArmor <= 0)
-        {
-            for (int i = 0; i < damage; i++)
+            if (playerArmor <= 0)
             {
-                playerHealth -= 1;
-                var newWidth = playerHealthFill.rectTransform.sizeDelta.x - playerFillDecrease;
-                playerHealthFill.rectTransform.sizeDelta = new Vector2(newWidth, playerHealthFill.rectTransform.sizeDelta.y);
-                yield return new WaitForSeconds(0.03f);
-                textPlayerHealth.text = playerHealth + "/" + playerHealthMax;
-            }
-        }
-        else
-        {
-            for (int i = 0; i < damage; i++)
-            {
-                if (playerArmor <= 0)
+                for (int i = 0; i < damage; i++)
                 {
-                    var remainingDamage = enemyDamage - (i + 1);
-
-                    for (int j = 0; j < remainingDamage; j++)
+                    playerHealth -= 1;
+                    var newWidth = playerHealthFill.rectTransform.sizeDelta.x - playerFillDecrease;
+                    playerHealthFill.rectTransform.sizeDelta = new Vector2(newWidth, playerHealthFill.rectTransform.sizeDelta.y);
+                    yield return new WaitForSeconds(0.03f);
+                    textPlayerHealth.text = playerHealth + "/" + playerHealthMax;
+                }
+            }
+            else
+            {
+                for (int i = 0; i < damage; i++)
+                {
+                    if (playerArmor <= 0)
                     {
-                        playerHealth -= 1;
-                        var newWidth = playerHealthFill.rectTransform.sizeDelta.x - playerFillDecrease;
-                        playerHealthFill.rectTransform.sizeDelta = new Vector2(newWidth, playerHealthFill.rectTransform.sizeDelta.y);
-                        yield return new WaitForSeconds(0.03f);
-                        textPlayerHealth.text = playerHealth + "/" + playerHealthMax;
+                        var remainingDamage = enemyDamage[h] - (i + 1);
+
+                        for (int j = 0; j < remainingDamage; j++)
+                        {
+                            playerHealth -= 1;
+                            var newWidth = playerHealthFill.rectTransform.sizeDelta.x - playerFillDecrease;
+                            playerHealthFill.rectTransform.sizeDelta = new Vector2(newWidth, playerHealthFill.rectTransform.sizeDelta.y);
+                            yield return new WaitForSeconds(0.03f);
+                            textPlayerHealth.text = playerHealth + "/" + playerHealthMax;
+                        }
+                        break;
                     }
-                    break;
+
+                    playerArmor -= 1;
+                    textPlayerArmor.text = playerArmor + "";
+
+                    if (playerArmor <= 0)
+                    {
+                        armorDisplay.SetActive(false);
+                    }
+
+                    yield return new WaitForSeconds(0.1f);
                 }
-
-                playerArmor -= 1;
-                textPlayerArmor.text = playerArmor + "";
-
-                if (playerArmor <= 0)
-                {
-                    armorDisplay.SetActive(false);
-                }
-
-                yield return new WaitForSeconds(0.1f);
             }
+
+            yield return new WaitForSeconds(1.25f);
         }
 
-        yield return new WaitForSeconds(1.25f);
         scriptCardSpawner.SpawnCards();
         FillEnergy();
     }
 
-    public void PlayerAttack(int damage)
+    public void PlayerAttack(int damage, int enemyToAttack)
     {
         animatorPlayer.SetBool("isAttack", true);
-        StartCoroutine(DamageEnemy(damage));
+        StartCoroutine(DamageEnemy(damage, enemyToAttack));
     }
 
-    public IEnumerator DamageEnemy(int damage)
+    public IEnumerator DamageEnemy(int damage, int enemyToAttack)
     {
         yield return new WaitForSeconds(0.75f);
-        animatorEnemy.SetBool("isTakeDamage", true);
+        animatorEnemy[enemyToAttack].SetBool("isTakeDamage", true);
 
         for (int i = 0; i < damage; i++)
         {
             scriptPerlinCameraShake.CameraShake(cameraShakeTrauma);
-            enemyHealth -= 1;
-            var newWidth = enemyHealthFill.rectTransform.sizeDelta.x - enemyFillDecrease;
-            enemyHealthFill.rectTransform.sizeDelta = new Vector2(newWidth, enemyHealthFill.rectTransform.sizeDelta.y);
+            enemyHealth[enemyToAttack] -= 1;
+            var newWidth = enemyHealthFill[enemyToAttack].rectTransform.sizeDelta.x - enemyFillDecrease;
+            enemyHealthFill[enemyToAttack].rectTransform.sizeDelta = new Vector2(newWidth, enemyHealthFill[enemyToAttack].rectTransform.sizeDelta.y);
             yield return new WaitForSeconds(0.03f);
-            textEnemyHealth.text = enemyHealth + "/" + enemyHealthMax;
+            textEnemyHealth[enemyToAttack].text = enemyHealth[enemyToAttack] + "/" + enemyHealthMax[enemyToAttack];
         }
     }
 
@@ -167,10 +171,5 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (testDamageEnemy)
-        {
-            testDamageEnemy = false;
-            PlayerAttack(15);
-        }
     }
 }
