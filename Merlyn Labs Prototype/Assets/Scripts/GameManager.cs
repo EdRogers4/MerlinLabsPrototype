@@ -42,6 +42,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI textPlayerVengeance;
     [SerializeField] private TextMeshProUGUI textPlayerHealth;
     [SerializeField] private Animator animatorPlayer;
+    [SerializeField] private ParticleSystem[] particlePlayerDamage;
     public int playerEnergy;
     private float playerFillDecrease;
 
@@ -136,6 +137,7 @@ public class GameManager : MonoBehaviour
             {
                 yield return new WaitForSeconds(1.0f);
                 animatorEnemy[h].SetBool("isAttack", true);
+                particlePlayerDamage[Random.Range(0, particlePlayerDamage.Length)].Play();
                 yield return new WaitForSeconds(0.75f);
                 animatorPlayer.SetBool("isTakeDamage", true);
                 animatorPopupTextPlayerDamage.SetBool("isShow", true);
