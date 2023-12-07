@@ -58,6 +58,12 @@ public class GameManager : MonoBehaviour
     [SerializeField] private bool[] isEnemySleep;
     [SerializeField] private ParticleSystem[] particleSlashEnemy0;
     [SerializeField] private ParticleSystem[] particleSlashEnemy1;
+    [SerializeField] private ParticleSystem[] particleHitEnemy0;
+    [SerializeField] private ParticleSystem[] particleHitEnemy1;
+    [SerializeField] private ParticleSystem[] particleBlueEnemy0;
+    [SerializeField] private ParticleSystem[] particleBlueEnemy1;
+    [SerializeField] private ParticleSystem[] particleEnergyEnemy0;
+    [SerializeField] private ParticleSystem[] particleEnergyEnemy1;
     private float enemyFillDecrease;
     private bool isShowEnemyZZZ;
     private int countEnemyZZZ;
@@ -224,10 +230,16 @@ public class GameManager : MonoBehaviour
         if (enemyToAttack == 0)
         {
             particleSlashEnemy0[Random.Range(0, particleSlashEnemy0.Length)].Play();
+            //particleHitEnemy0[Random.Range(0, particleHitEnemy0.Length)].Play();
+            particleBlueEnemy0[Random.Range(0, particleBlueEnemy0.Length)].Play();
+            particleEnergyEnemy0[Random.Range(0, particleEnergyEnemy0.Length)].Play();
         }
         else
         {
-            particleSlashEnemy1[Random.Range(0, particleSlashEnemy0.Length)].Play();
+            particleSlashEnemy1[Random.Range(0, particleSlashEnemy1.Length)].Play();
+            //particleHitEnemy1[Random.Range(0, particleHitEnemy1.Length)].Play();
+            particleBlueEnemy1[Random.Range(0, particleBlueEnemy1.Length)].Play();
+            particleEnergyEnemy1[Random.Range(0, particleEnergyEnemy1.Length)].Play();
         }
 
         yield return new WaitForSeconds(0.75f);
