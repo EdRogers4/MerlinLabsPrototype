@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CardSpawner : MonoBehaviour
 {
@@ -48,6 +49,11 @@ public class CardSpawner : MonoBehaviour
             thisCard.scriptCardPositioner = scriptCardPositioner;
             thisCard.scriptCardsLibrary = scriptCardsLibrary;
             thisCard.canvas = canvas;
+
+            if (thisCard.cardIndex == 2 || thisCard.cardIndex == 9)
+            {
+                thisCard.GetComponent<Image>().color = new Color(0.79f, 1.0f, 0.27f, 1.0f);
+            }
 
             if (scriptCardsLibrary.isXCost[thisCard.cardIndex])
             {
