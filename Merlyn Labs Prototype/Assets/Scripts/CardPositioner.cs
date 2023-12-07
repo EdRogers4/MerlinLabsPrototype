@@ -45,7 +45,7 @@ public class CardPositioner : MonoBehaviour
         {
             isCardDrag = false;
             
-            if (worldPosition.x > -7.3f && worldPosition.x < 7.8f && worldPosition.y > -0.37 && worldPosition.y < 2.7f)
+            if (worldPosition.x > -7.3f && worldPosition.x < 7.8f && worldPosition.y > -1.0f && worldPosition.y < 2.7f)
             {
                 currentCard.ReleaseCard();
             }

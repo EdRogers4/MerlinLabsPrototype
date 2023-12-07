@@ -117,7 +117,7 @@ public class GameManager : MonoBehaviour
     {
         for (int h = 0; h < 2; h++)
         {
-            if (!isEnemyDead[h])
+            if (!isEnemyDead[h] && !isEnemySleep[h])
             {
                 yield return new WaitForSeconds(1.0f);
                 animatorEnemy[h].SetBool("isAttack", true);
@@ -194,6 +194,14 @@ public class GameManager : MonoBehaviour
         }
 
         yield return new WaitForSeconds(0.75f);
+
+        if (isEnemySleep[enemyToAttack])
+        {
+            isEnemySleep[enemyToAttack] = false;
+            textEnemyZZZ[enemyToAttack].text = "";
+            animatorEnemy[enemyToAttack].SetBool("isSleep", false);
+        }
+
         animatorEnemy[enemyToAttack].SetBool("isTakeDamage", true);
 
         for (int i = 0; i < damage; i++)
@@ -310,7 +318,7 @@ public class GameManager : MonoBehaviour
 
         if (isKnightsResolve && playerEnergy > 0)
         {
-            yield return new WaitForSeconds(1.0f);
+            yield return new WaitForSeconds(0.1f);
             StartCoroutine(GainArmor(6));
         }
         else
@@ -374,14 +382,14 @@ public class GameManager : MonoBehaviour
     public void UsePotion()
     {
         isUsePotion = true;
-        TogglePotionMenu(0);
+        TogglePotionMenu(selectedPotion);
         animatorSelectEnemy.SetBool("isShow", true);
     }
 
     public void DiscardPotion()
     {
         Destroy(potions[selectedPotion]);
-        TogglePotionMenu(0);
+        TogglePotionMenu(selectedPotion);
     }
 
     public void PutEnemyToSleep(int index)
@@ -436,7 +444,15 @@ public class GameManager : MonoBehaviour
         }
 
         yield return new WaitForSeconds(0.5f);
-        StartCoroutine(EnemyShowZZZ());
+
+        if (isEnemySleep[0] || isEnemySleep[1])
+        {
+            StartCoroutine(EnemyShowZZZ());
+        }
+        else
+        {
+            isShowEnemyZZZ = false;
+        }
     }
     private void Update()
     {
