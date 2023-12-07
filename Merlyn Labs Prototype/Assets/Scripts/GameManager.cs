@@ -65,6 +65,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Animator animatorSelectEnemy;
     private int selectedPotion;
 
+    [Header("Popups")]
+    [SerializeField] private GameObject tooltipAbility;
+    [SerializeField] private TextMeshProUGUI textTooltipDescription;
+
     [Header("Test")]
     [SerializeField] private bool testDamageEnemy;
 
@@ -338,7 +342,7 @@ public class GameManager : MonoBehaviour
         {
             playerVengeance += 1;
 
-            if (!vengeanceDisplay.active)
+            if (!vengeanceDisplay.activeSelf)
             {
                 vengeanceDisplay.SetActive(true);
             }
@@ -454,6 +458,18 @@ public class GameManager : MonoBehaviour
             isShowEnemyZZZ = false;
         }
     }
+
+    public void ShowTooltip()
+    {
+        tooltipAbility.SetActive(true);
+        textTooltipDescription.text = "Each time you kill an enemy, gain " + playerVengeance + " HP";
+    }
+
+    public void HideTooltip()
+    {
+        tooltipAbility.SetActive(false);
+    }
+
     private void Update()
     {
         
