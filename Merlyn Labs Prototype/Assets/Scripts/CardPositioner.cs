@@ -32,6 +32,7 @@ public class CardPositioner : MonoBehaviour
     [SerializeField] private Transform transformCurrentTarget;
     [SerializeField] private Image[] enemyHighlight;
     [SerializeField] private Sprite spriteEnemyTargeted;
+    [SerializeField] private Sprite spriteEnemyTexture;
 
     void Start()
     {
@@ -100,9 +101,9 @@ public class CardPositioner : MonoBehaviour
         }
         else
         {
-            if (spriteEnemyTargeted != null)
+            if (spriteEnemyTargeted != spriteEnemyTexture)
             {
-                enemyHighlight[0].sprite = null;
+                enemyHighlight[0].sprite = spriteEnemyTexture;
             }
 
             if (enemyTargeted != 2)
@@ -122,9 +123,9 @@ public class CardPositioner : MonoBehaviour
         }
         else
         {
-            if (spriteEnemyTargeted != null)
+            if (spriteEnemyTargeted != spriteEnemyTexture)
             {
-                enemyHighlight[1].sprite = null;
+                enemyHighlight[1].sprite = spriteEnemyTexture;
             }
 
             if (enemyTargeted != 1)

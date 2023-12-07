@@ -55,6 +55,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI[] textEnemyZZZ;
     [SerializeField] private Animator[] animatorEnemy;
     [SerializeField] private bool[] isEnemySleep;
+    [SerializeField] private ParticleSystem[] particleSlashEnemy0;
+    [SerializeField] private ParticleSystem[] particleSlashEnemy1;
     private float enemyFillDecrease;
     private bool isShowEnemyZZZ;
     private int countEnemyZZZ;
@@ -215,6 +217,15 @@ public class GameManager : MonoBehaviour
         if (counterRoundhouse > 0)
         {
             counterRoundhouse -= 1;
+        }
+
+        if (enemyToAttack == 0)
+        {
+            particleSlashEnemy0[Random.Range(0, particleSlashEnemy0.Length)].Play();
+        }
+        else
+        {
+            particleSlashEnemy1[Random.Range(0, particleSlashEnemy0.Length)].Play();
         }
 
         yield return new WaitForSeconds(0.75f);
