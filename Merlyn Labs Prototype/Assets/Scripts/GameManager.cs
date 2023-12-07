@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -25,8 +26,11 @@ public class GameManager : MonoBehaviour
     [Header("Game Status")]
     public bool isCardUnavailableToPlay;
     [SerializeField] private bool isEndTurnUnavailable;
+    [SerializeField] private GameObject buttonEndTurn;
+    [SerializeField] private GameObject deathScreen;
 
     [Header("Player")]
+    public bool isPlayerDead;
     public int playerArmor;
     [SerializeField] private int playerVengeance;
     [SerializeField] private int playerHealth;
@@ -69,7 +73,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject tooltipAbility;
     [SerializeField] private TextMeshProUGUI textTooltipDescription;
     [SerializeField] private Animator[] animatorPopupTextEnemy;
+    [SerializeField] private Animator animatorPopupTextPlayerDamage;
+    [SerializeField] private Animator animatorPopupTextPlayerHealth;
     [SerializeField] private TextMeshProUGUI[] textPopupDamageEnemy;
+    [SerializeField] private TextMeshProUGUI textPopupHealthPlayer;
 
     [Header("Test")]
     [SerializeField] private bool testDamageEnemy;
@@ -129,6 +136,7 @@ public class GameManager : MonoBehaviour
                 animatorEnemy[h].SetBool("isAttack", true);
                 yield return new WaitForSeconds(0.75f);
                 animatorPlayer.SetBool("isTakeDamage", true);
+                animatorPopupTextPlayerDamage.SetBool("isShow", true);
 
                 if (playerArmor <= 0)
                 {
@@ -139,6 +147,16 @@ public class GameManager : MonoBehaviour
                         playerHealthFill.rectTransform.sizeDelta = new Vector2(newWidth, playerHealthFill.rectTransform.sizeDelta.y);
                         yield return new WaitForSeconds(0.03f);
                         textPlayerHealth.text = playerHealth + "/" + playerHealthMax;
+
+                        if (playerHealth <= 0)
+                        {
+                            animatorPlayer.SetBool("isDeath", true);
+                            isPlayerDead = true;
+                            buttonEndTurn.SetActive(false);
+                            yield return new WaitForSeconds(1.0f);
+                            deathScreen.SetActive(true);
+                            break;
+                        }
                     }
                 }
                 else
@@ -282,6 +300,9 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator GainHealth()
     {
+        animatorPopupTextPlayerHealth.SetBool("isShow", true);
+        textPopupHealthPlayer.text = "+" + playerVengeance + "HP!";
+
         for (int i = 0; i < playerVengeance; i++)
         {
             if (playerHealth >= playerHealthMax)
@@ -472,6 +493,16 @@ public class GameManager : MonoBehaviour
     {
         tooltipAbility.SetActive(false);
     }
+
+    public void RestartGame()
+    {
+        SceneManager.LoadScene("SampleScene");
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
+    }    
 
     private void Update()
     {
