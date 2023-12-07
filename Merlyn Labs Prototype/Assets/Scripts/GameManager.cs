@@ -48,9 +48,12 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int[] enemyHealthMax;
     [SerializeField] private Image[] enemyHealthFill;
     [SerializeField] private TextMeshProUGUI[] textEnemyHealth;
+    [SerializeField] private TextMeshProUGUI[] textEnemyZZZ;
     [SerializeField] private Animator[] animatorEnemy;
     [SerializeField] private bool[] isEnemySleep;
     private float enemyFillDecrease;
+    private bool isShowEnemyZZZ;
+    private int countEnemyZZZ;
 
     [Header("Energy")]
     [SerializeField] private TextMeshProUGUI textPlayerEnergy;
@@ -59,6 +62,7 @@ public class GameManager : MonoBehaviour
     public bool isUsePotion;
     [SerializeField] private GameObject[] potions;
     [SerializeField] private GameObject potionMenu;
+    [SerializeField] private Animator animatorSelectEnemy;
     private int selectedPotion;
 
     [Header("Test")]
@@ -370,6 +374,8 @@ public class GameManager : MonoBehaviour
     public void UsePotion()
     {
         isUsePotion = true;
+        TogglePotionMenu(0);
+        animatorSelectEnemy.SetBool("isShow", true);
     }
 
     public void DiscardPotion()
@@ -382,13 +388,58 @@ public class GameManager : MonoBehaviour
     {
         if (isUsePotion)
         {
-            TogglePotionMenu(0);
             isUsePotion = false;
             isEnemySleep[index] = true;
+            animatorSelectEnemy.SetBool("isShow", false);
+            animatorEnemy[index].SetBool("isSleep", true);
+            Destroy(potions[selectedPotion]);
+
+            if (!isShowEnemyZZZ)
+            {
+                isShowEnemyZZZ = true;
+                StartCoroutine(EnemyShowZZZ());
+            }
         }
     }
 
+    private IEnumerator EnemyShowZZZ()
+    {
+        for (int i = 0; i < isEnemySleep.Length; i++)
+        {
+            if (isEnemySleep[i])
+            {
+                switch (countEnemyZZZ)
+                {
+                    case 0:
+                        textEnemyZZZ[i].text = "z";
+                        break;
+                    case 1:
+                        textEnemyZZZ[i].text = "zZ";
+                        break;
+                    case 2:
+                        textEnemyZZZ[i].text = "zZz";
+                        break;
+                    case 3:
+                        textEnemyZZZ[i].text = "";
+                        break;
+                }
+            }
+        }
+
+        if (countEnemyZZZ >= 3)
+        {
+            countEnemyZZZ = 0;
+        }
+        else
+        {
+            countEnemyZZZ += 1;
+        }
+
+        yield return new WaitForSeconds(0.5f);
+        StartCoroutine(EnemyShowZZZ());
+    }
     private void Update()
     {
+        
     }
 }

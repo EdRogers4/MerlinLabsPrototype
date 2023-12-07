@@ -51,7 +51,7 @@ public class CardPositioner : MonoBehaviour
             }
         }
 
-        if (currentCardHighlighted > 0)
+        if (currentCardHighlighted > 0 && !scriptGameManager.isUsePotion)
         {
             float step = speedMoveHighlighted * Time.deltaTime;
 
