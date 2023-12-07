@@ -48,7 +48,7 @@ public class CardsLibrary : MonoBehaviour
                 scriptGameManager.PlayerAttack(7, enemyToAttack);
                 break;
             case 9:
-                scriptGameManager.PlayerAttack(5, enemyToAttack);
+                StartCoroutine(scriptGameManager.GainVengeance(5, enemyToAttack));
                 break;
 
         }

@@ -68,6 +68,8 @@ public class GameManager : MonoBehaviour
     [Header("Popups")]
     [SerializeField] private GameObject tooltipAbility;
     [SerializeField] private TextMeshProUGUI textTooltipDescription;
+    [SerializeField] private Animator[] animatorPopupTextEnemy;
+    [SerializeField] private TextMeshProUGUI[] textPopupDamageEnemy;
 
     [Header("Test")]
     [SerializeField] private bool testDamageEnemy;
@@ -170,7 +172,7 @@ public class GameManager : MonoBehaviour
                     }
                 }
 
-                yield return new WaitForSeconds(1.25f);
+                yield return new WaitForSeconds(0.5f);
             }
         }
 
@@ -207,6 +209,8 @@ public class GameManager : MonoBehaviour
         }
 
         animatorEnemy[enemyToAttack].SetBool("isTakeDamage", true);
+        animatorPopupTextEnemy[enemyToAttack].SetBool("isShow", true);
+        textPopupDamageEnemy[enemyToAttack].text = "+" + damage + " Damage!";
 
         for (int i = 0; i < damage; i++)
         {
@@ -351,7 +355,6 @@ public class GameManager : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
         }
 
-        yield return new WaitForSeconds(1.25f);
         PlayerAttack(6, enemyTargeted);
     }
 

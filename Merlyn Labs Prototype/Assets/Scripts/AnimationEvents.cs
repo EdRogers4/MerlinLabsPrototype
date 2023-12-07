@@ -25,4 +25,9 @@ public class AnimationEvents : MonoBehaviour
     {
         animator.SetBool("isAttack", false);
     }
+
+    public void TogglePopupTextOff()
+    {
+        animator.SetBool("isShow", false);
+    }
 }
