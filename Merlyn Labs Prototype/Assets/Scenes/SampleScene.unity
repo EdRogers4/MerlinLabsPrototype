@@ -14486,6 +14486,7 @@ MonoBehaviour:
   - {fileID: 1362415846}
   - {fileID: 1791571663}
   particlePlayerVengeance: {fileID: 1142076507}
+  particlePlayerArmor: {fileID: 1656559231}
   playerEnergy: 0
   isEnemyDead: 0000
   enemyDamage: 0c0000000c000000
@@ -32184,6 +32185,11 @@ PrefabInstance:
 --- !u!4 &1656559229 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5988030671814071771, guid: b096321ced8b14de2846e7218747f66f, type: 3}
+  m_PrefabInstance: {fileID: 1656559228}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &1656559231 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 5988030671814071768, guid: b096321ced8b14de2846e7218747f66f, type: 3}
   m_PrefabInstance: {fileID: 1656559228}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1674315571
