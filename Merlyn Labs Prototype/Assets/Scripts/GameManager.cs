@@ -384,7 +384,11 @@ public class GameManager : MonoBehaviour
             enemyToAttack = 0;
         }
 
-        StartCoroutine(DamageEnemy(5, enemyToAttack));
+        if (!isEnemyDead[enemyToAttack])
+        {
+            StartCoroutine(DamageEnemy(5, enemyToAttack));
+        }
+
         yield return new WaitForSeconds(2.5f);
         isLightningArc = false;
     }
