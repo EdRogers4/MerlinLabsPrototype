@@ -48,7 +48,8 @@ public class CardsLibrary : MonoBehaviour
                 scriptGameManager.PlayerAttack(7, enemyToAttack);
                 break;
             case 9:
-                StartCoroutine(scriptGameManager.GainVengeance(5, enemyToAttack));
+                scriptGameManager.isLightningArc = true;
+                StartCoroutine(scriptGameManager.LightningArc(enemyToAttack));
                 break;
 
         }

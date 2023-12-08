@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     public bool isHiltPunch;
     public bool isKnightsResolve;
     public bool isFlurry;
+    public bool isLightningArc;
     public int modifierPlantFeet;
     public int modifierHiltPunch;
     public int counterRoundhouse;
@@ -68,6 +69,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private ParticleSystem[] particleEnergyEnemy0;
     [SerializeField] private ParticleSystem[] particleEnergyEnemy1;
     [SerializeField] private ParticleSystem[] particleEnemySleep;
+    [SerializeField] private ParticleSystem[] particleEnemyLightning0;
+    [SerializeField] private ParticleSystem[] particleEnemyLightning1;
     private float enemyFillDecrease;
     private bool isShowEnemyZZZ;
     private int countEnemyZZZ;
@@ -231,22 +234,27 @@ public class GameManager : MonoBehaviour
             counterRoundhouse -= 1;
         }
 
-        if (enemyToAttack == 0)
+        if (!isLightningArc)
         {
-            particleSlashEnemy0[Random.Range(0, particleSlashEnemy0.Length)].Play();
-            //particleHitEnemy0[Random.Range(0, particleHitEnemy0.Length)].Play();
-            particleBlueEnemy0[Random.Range(0, particleBlueEnemy0.Length)].Play();
-            particleEnergyEnemy0[Random.Range(0, particleEnergyEnemy0.Length)].Play();
-        }
-        else
-        {
-            particleSlashEnemy1[Random.Range(0, particleSlashEnemy1.Length)].Play();
-            //particleHitEnemy1[Random.Range(0, particleHitEnemy1.Length)].Play();
-            particleBlueEnemy1[Random.Range(0, particleBlueEnemy1.Length)].Play();
-            particleEnergyEnemy1[Random.Range(0, particleEnergyEnemy1.Length)].Play();
+            if (enemyToAttack == 0)
+            {
+                particleSlashEnemy0[Random.Range(0, particleSlashEnemy0.Length)].Play();
+                //particleHitEnemy0[Random.Range(0, particleHitEnemy0.Length)].Play();
+                particleBlueEnemy0[Random.Range(0, particleBlueEnemy0.Length)].Play();
+                particleEnergyEnemy0[Random.Range(0, particleEnergyEnemy0.Length)].Play();
+            }
+            else
+            {
+                particleSlashEnemy1[Random.Range(0, particleSlashEnemy1.Length)].Play();
+                //particleHitEnemy1[Random.Range(0, particleHitEnemy1.Length)].Play();
+                particleBlueEnemy1[Random.Range(0, particleBlueEnemy1.Length)].Play();
+                particleEnergyEnemy1[Random.Range(0, particleEnergyEnemy1.Length)].Play();
+            }
         }
 
         yield return new WaitForSeconds(0.75f);
+
+        Debug.Log("enemy to attack: " + enemyToAttack);
 
         if (isEnemySleep[enemyToAttack])
         {
@@ -324,6 +332,43 @@ public class GameManager : MonoBehaviour
             }
 
             CheckCardToPlayStatus();
+        }
+    }
+
+    public IEnumerator LightningArc(int enemyToAttack)
+    {
+        StartCoroutine(DamageEnemy(10, enemyToAttack));
+        StartCoroutine(PlayLightningEffects(enemyToAttack));
+        yield return new WaitForSeconds(0.5f);
+
+        if (enemyToAttack == 0)
+        {
+            enemyToAttack = 1;
+        }
+        else
+        {
+            enemyToAttack = 0;
+        }
+
+        StartCoroutine(DamageEnemy(5, enemyToAttack));
+        yield return new WaitForSeconds(2.5f);
+        isLightningArc = false;
+    }
+
+    private IEnumerator PlayLightningEffects(int enemyToAttack)
+    {
+        for (int i = 0; i < particleEnemyLightning0.Length; i++)
+        {
+            if (enemyToAttack == 0)
+            {
+                particleEnemyLightning0[i].Play();
+            }
+            else
+            {
+                particleEnemyLightning1[i].Play();
+            }
+
+            yield return new WaitForSeconds(0.2f);
         }
     }
 

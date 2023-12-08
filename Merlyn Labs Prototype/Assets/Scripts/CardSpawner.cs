@@ -50,9 +50,13 @@ public class CardSpawner : MonoBehaviour
             thisCard.scriptCardsLibrary = scriptCardsLibrary;
             thisCard.canvas = canvas;
 
-            if (thisCard.cardIndex == 2 || thisCard.cardIndex == 9)
+            if (thisCard.cardIndex == 2)
             {
                 thisCard.GetComponent<Image>().color = new Color(0.79f, 1.0f, 0.27f, 1.0f);
+            }
+            else if (thisCard.cardIndex == 9)
+            {
+                thisCard.GetComponent<Image>().color = new Color(0.38f, 0.0f, 1.0f, 1.0f);
             }
 
             if (scriptCardsLibrary.isXCost[thisCard.cardIndex])
