@@ -43,6 +43,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI textPlayerHealth;
     [SerializeField] private Animator animatorPlayer;
     [SerializeField] private ParticleSystem[] particlePlayerDamage;
+    [SerializeField] private ParticleSystem[] particlePlayerHeal;
+    [SerializeField] private ParticleSystem particlePlayerVengeance;
+    [SerializeField] private ParticleSystem particlePlayerArmor;
     public int playerEnergy;
     private float playerFillDecrease;
 
@@ -64,6 +67,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private ParticleSystem[] particleBlueEnemy1;
     [SerializeField] private ParticleSystem[] particleEnergyEnemy0;
     [SerializeField] private ParticleSystem[] particleEnergyEnemy1;
+    [SerializeField] private ParticleSystem[] particleEnemySleep;
     private float enemyFillDecrease;
     private bool isShowEnemyZZZ;
     private int countEnemyZZZ;
@@ -328,6 +332,11 @@ public class GameManager : MonoBehaviour
         animatorPopupTextPlayerHealth.SetBool("isShow", true);
         textPopupHealthPlayer.text = "+" + playerVengeance + "HP!";
 
+        for (int i = 0; i < particlePlayerHeal.Length; i++)
+        {
+            particlePlayerHeal[i].Play();
+        }
+
         for (int i = 0; i < playerVengeance; i++)
         {
             if (playerHealth >= playerHealthMax)
@@ -349,6 +358,8 @@ public class GameManager : MonoBehaviour
         {
             UseEnergy(1);
         }
+
+        particlePlayerArmor.Play();
 
         for (int i = 0; i < defense; i++)
         {
@@ -388,6 +399,8 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator GainVengeance(int vengeance, int enemyTargeted)
     {
+        particlePlayerVengeance.Play();
+
         for (int i = 0; i < vengeance; i++)
         {
             playerVengeance += 1;
@@ -454,6 +467,7 @@ public class GameManager : MonoBehaviour
             animatorSelectEnemy.SetBool("isShow", false);
             animatorEnemy[index].SetBool("isSleep", true);
             Destroy(potions[selectedPotion]);
+            particleEnemySleep[index].Play();
 
             if (!isShowEnemyZZZ)
             {
