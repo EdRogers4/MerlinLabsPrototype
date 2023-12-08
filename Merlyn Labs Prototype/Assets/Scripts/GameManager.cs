@@ -7,6 +7,9 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    [Header("Sound")]
+    public SoundLibrary scriptSoundLibrary;
+
     [Header("Cards")]
     [SerializeField] private CardPositioner scriptCardPositioner;
     [SerializeField] private CardSpawner scriptCardSpawner;
@@ -126,6 +129,7 @@ public class GameManager : MonoBehaviour
         if (!isEndTurnUnavailable)
         {
             isEndTurnUnavailable = true;
+            scriptSoundLibrary.SoundEndTurn();
 
             for (int i = scriptCardPositioner.listCardTransform.Count - 1; i >= 0; i--)
             {
@@ -155,6 +159,8 @@ public class GameManager : MonoBehaviour
             {
                 yield return new WaitForSeconds(1.0f);
                 animatorEnemy[h].SetBool("isAttack", true);
+                scriptSoundLibrary.SoundEnemyAttack();
+                scriptSoundLibrary.SoundEnemySlash();
                 particlePlayerDamage[Random.Range(0, particlePlayerDamage.Length)].Play();
                 yield return new WaitForSeconds(0.75f);
                 animatorPlayer.SetBool("isTakeDamage", true);
@@ -172,6 +178,7 @@ public class GameManager : MonoBehaviour
 
                         if (playerHealth <= 0)
                         {
+                            scriptSoundLibrary.SoundPlayerDeath();
                             animatorPlayer.SetBool("isDeath", true);
                             isPlayerDead = true;
                             buttonEndTurn.SetActive(false);
@@ -183,6 +190,8 @@ public class GameManager : MonoBehaviour
                 }
                 else
                 {
+                    scriptSoundLibrary.SoundPlayerBlock();
+
                     for (int i = 0; i < damage; i++)
                     {
                         if (playerArmor <= 0)
@@ -206,6 +215,7 @@ public class GameManager : MonoBehaviour
                         if (playerArmor <= 0)
                         {
                             armorDisplay.SetActive(false);
+                            scriptSoundLibrary.SoundPlayerArmorBreak();
                         }
 
                         yield return new WaitForSeconds(0.1f);
@@ -255,6 +265,8 @@ public class GameManager : MonoBehaviour
 
         if (!isLightningArc)
         {
+            scriptSoundLibrary.SoundPlayerAttack();
+
             if (enemyToAttack == 0)
             {
                 particleSlashEnemy0[Random.Range(0, particleSlashEnemy0.Length)].Play();
@@ -280,8 +292,10 @@ public class GameManager : MonoBehaviour
             sleepDisplay[enemyToAttack].SetActive(false);
             textEnemyZZZ[enemyToAttack].text = "";
             animatorEnemy[enemyToAttack].SetBool("isSleep", false);
+            scriptSoundLibrary.SoundEnemyWakeUp();
         }
 
+        scriptSoundLibrary.SoundEnemyTakeDamage();
         animatorEnemy[enemyToAttack].SetBool("isTakeDamage", true);
         animatorPopupTextEnemy[enemyToAttack].SetBool("isShow", true);
         textPopupDamageEnemy[enemyToAttack].text = "+" + damage + " Damage!";
@@ -299,6 +313,7 @@ public class GameManager : MonoBehaviour
             {
                 animatorEnemy[enemyToAttack].SetBool("isDeath", true);
                 isEnemyDead[enemyToAttack] = true;
+                scriptSoundLibrary.SoundEnemyDeath();
 
                 if (enemyToAttack == 0)
                 {
@@ -376,6 +391,8 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator PlayLightningEffects(int enemyToAttack)
     {
+        scriptSoundLibrary.SoundLightning();
+
         for (int i = 0; i < particleEnemyLightning0.Length; i++)
         {
             if (enemyToAttack == 0)
@@ -395,6 +412,7 @@ public class GameManager : MonoBehaviour
     {
         animatorPopupTextPlayerHealth.SetBool("isShow", true);
         textPopupHealthPlayer.text = "+" + playerVengeance + "HP!";
+        scriptSoundLibrary.SoundHeal();
 
         for (int i = 0; i < particlePlayerHeal.Length; i++)
         {
@@ -424,6 +442,7 @@ public class GameManager : MonoBehaviour
         }
 
         particlePlayerArmor.Play();
+        scriptSoundLibrary.SoundGainArmor();
 
         for (int i = 0; i < defense; i++)
         {
@@ -464,6 +483,7 @@ public class GameManager : MonoBehaviour
     public IEnumerator GainVengeance(int vengeance, int enemyTargeted)
     {
         particlePlayerVengeance.Play();
+        scriptSoundLibrary.SoundGainVengeance();
 
         for (int i = 0; i < vengeance; i++)
         {
@@ -484,6 +504,7 @@ public class GameManager : MonoBehaviour
     private IEnumerator RespawnEnemies()
     {
         yield return new WaitForSeconds(0.5f);
+        scriptSoundLibrary.SoundEnemySpawn();
 
         for (int i = 0; i < 2; i++)
         {
@@ -502,10 +523,12 @@ public class GameManager : MonoBehaviour
         if (potionMenu.activeSelf)
         {
             potionMenu.SetActive(false);
+            scriptSoundLibrary.SoundPotionClose();
         }
         else
         {
             potionMenu.SetActive(true);
+            scriptSoundLibrary.SoundPotionSelect();
         }
     }
 
@@ -514,12 +537,14 @@ public class GameManager : MonoBehaviour
         isUsePotion = true;
         TogglePotionMenu(selectedPotion);
         animatorSelectEnemy.SetBool("isShow", true);
+        scriptSoundLibrary.SoundPotionUse();
     }
 
     public void DiscardPotion()
     {
         Destroy(potions[selectedPotion]);
         TogglePotionMenu(selectedPotion);
+        scriptSoundLibrary.SoundPotionDiscard();
     }
 
     public void PutEnemyToSleep(int index)
@@ -532,6 +557,7 @@ public class GameManager : MonoBehaviour
             animatorEnemy[index].SetBool("isSleep", true);
             Destroy(potions[selectedPotion]);
             particleEnemySleep[index].Play();
+            scriptSoundLibrary.SoundSleep();
             countTurnsLeftToSleep[index] = 3;
             sleepDisplay[index].SetActive(true);
             textSleepCounter[index].text = "" + countTurnsLeftToSleep[index];
@@ -593,31 +619,37 @@ public class GameManager : MonoBehaviour
     {
         tooltipAbility.SetActive(true);
         textTooltipDescription.text = "Each time you kill an enemy, gain " + playerVengeance + " HP";
+        scriptSoundLibrary.SoundTooltipShow();
     }
 
     public void HideTooltip()
     {
         tooltipAbility.SetActive(false);
+        scriptSoundLibrary.SoundTooltipHide();
     }
 
     public void ShowTooltipPotion()
     {
         tooltipSleepPotion.SetActive(true);
+        scriptSoundLibrary.SoundTooltipShow();
     }
 
     public void HideTooltipPotion()
     {
         tooltipSleepPotion.SetActive(false);
+        scriptSoundLibrary.SoundTooltipHide();
     }
 
     public void ShowTooltipSleep(int index)
     {
         tooltipSleep[index].SetActive(true);
+        scriptSoundLibrary.SoundTooltipShow();
     }
 
     public void HideTooltipSleep(int index)
     {
         tooltipSleep[index].SetActive(false);
+        scriptSoundLibrary.SoundTooltipHide();
     }
 
     public void RestartGame()

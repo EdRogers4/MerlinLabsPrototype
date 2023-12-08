@@ -6247,6 +6247,7 @@ GameObject:
   - component: {fileID: 519420036}
   - component: {fileID: 519420037}
   - component: {fileID: 519420038}
+  - component: {fileID: 519420039}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -6340,6 +6341,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 718cb9ad689f757489c00a8bacbde68c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scriptSoundLibrary: {fileID: 519420039}
   currentCard: {fileID: 0}
   isCardDrag: 0
   isNoCardsHighlighted: 0
@@ -6436,6 +6438,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b63cc7184cefec844a8351b36cf8a170, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scriptSoundLibrary: {fileID: 519420039}
   scriptCardPositioner: {fileID: 519420033}
   scriptCardSpawner: {fileID: 519420034}
   scriptCardsLibrary: {fileID: 519420037}
@@ -6744,6 +6747,91 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &519420039
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0f971b9a05580d4ea6b9f35475c69d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cardDrop:
+  - {fileID: 8300000, guid: 73c06b73f80c4438788f8197fd8ddb6e, type: 3}
+  - {fileID: 8300000, guid: 47a994a603d384276b96fb3aacac53a9, type: 3}
+  cardHighlight:
+  - {fileID: 8300000, guid: ab0f106febff6488998ee891674902d2, type: 3}
+  - {fileID: 8300000, guid: 2920fba53fe76407a83bbe9dc7eeeb53, type: 3}
+  - {fileID: 8300000, guid: ceda70ec038ec46429ac77b66647bfd9, type: 3}
+  - {fileID: 8300000, guid: 9149cd8e2b35d4b29b75009399b09345, type: 3}
+  - {fileID: 8300000, guid: 4ce482aef6335499aa71500406610c1f, type: 3}
+  cardSpawn: {fileID: 8300000, guid: 4a1670bc367564e4db825093be0b7f9e, type: 3}
+  endTurn: {fileID: 8300000, guid: 1d8ab7a9b7373674ca07868530a5cb89, type: 3}
+  potionClose: {fileID: 8300000, guid: cca93041c5e2c4740964f9bf73dea73a, type: 3}
+  potionDiscard: {fileID: 8300000, guid: 379fd361c3d284aa695a920ac9ef4ddc, type: 3}
+  potionSelect: {fileID: 8300000, guid: 17737c892c260454f9ff04e062714c46, type: 3}
+  potionUse: {fileID: 8300000, guid: 9763dd04786914b8ca87b4685ee8596f, type: 3}
+  tooltipHide: {fileID: 8300000, guid: 51abf7f28c0a84f61bfc42d34b3a9826, type: 3}
+  tooltipShow: {fileID: 8300000, guid: 55ae2151bd12d4a67a1ad6a2ed856112, type: 3}
+  targetEnemy: {fileID: 8300000, guid: 93886f0730d93455888a089599217469, type: 3}
+  playerSlash:
+  - {fileID: 8300000, guid: 693cff115dc504eb4be1f2f4e90d72e7, type: 3}
+  - {fileID: 8300000, guid: 25914d8f6cff44b548de5d3fbcd0b20f, type: 3}
+  - {fileID: 8300000, guid: 0ec63043d8747436cb012262639eef47, type: 3}
+  - {fileID: 8300000, guid: b38c2cacedef841d4aaeccdf01fd9ef8, type: 3}
+  - {fileID: 8300000, guid: a4dfd4a487a664cc6bf16652c36e22e3, type: 3}
+  playerHit:
+  - {fileID: 8300000, guid: b9e9f834b6cb742a19f40698ef69545a, type: 3}
+  - {fileID: 8300000, guid: eba20cf36f79e48479e481235203d031, type: 3}
+  - {fileID: 8300000, guid: 4134d15ed2f1d4a8a8508065bb700218, type: 3}
+  - {fileID: 8300000, guid: f01b5db4762a240168af924c77c30786, type: 3}
+  - {fileID: 8300000, guid: 6c3a307c79c164144a91c0f671fa6884, type: 3}
+  playerBlock:
+  - {fileID: 8300000, guid: 022027cf015a14505bc83d397a8948f2, type: 3}
+  - {fileID: 8300000, guid: 8110c326a170b437a8e76d99cb3889b0, type: 3}
+  playerArmorBreak: {fileID: 8300000, guid: dd161ac7a6e2c4240b9bdd0c7c2631d6, type: 3}
+  playerDeath: {fileID: 8300000, guid: 839bfa1a6d983434395c7f58598987d3, type: 3}
+  enemySlash:
+  - {fileID: 8300000, guid: e1f874dcc05ae4aa3aff7f19ce097693, type: 3}
+  - {fileID: 8300000, guid: 14ce591f1ce674c528b6ddec64fe6978, type: 3}
+  - {fileID: 8300000, guid: 12408ec187c09461eb55fc9be4698b00, type: 3}
+  - {fileID: 8300000, guid: 6e4be8f878ba5435c9112ac1bac4f9cc, type: 3}
+  enemyHit:
+  - {fileID: 8300000, guid: b1f2ccbeaa10a434197dbde886a33048, type: 3}
+  - {fileID: 8300000, guid: e70c021b60c9744789404b7b88cae356, type: 3}
+  - {fileID: 8300000, guid: 26275602c490f412f9f401ad28fe3506, type: 3}
+  - {fileID: 8300000, guid: 8b40e5db7f47047dabd58c14277be6ae, type: 3}
+  enemyAttack:
+  - {fileID: 8300000, guid: 256558e601fe8aa459b96a4c4bc9382c, type: 3}
+  - {fileID: 8300000, guid: 1952f9fdd0875d84981d4c976b3cd122, type: 3}
+  - {fileID: 8300000, guid: a00389a14fac5b44b9754787c3398374, type: 3}
+  enemyTakeDamage:
+  - {fileID: 8300000, guid: b91eac140b6d70a4b9cb7dac770c12cb, type: 3}
+  - {fileID: 8300000, guid: a2328783e6dbd08488cb113517b8e112, type: 3}
+  - {fileID: 8300000, guid: 98080f3bb402638418da9206b2e39495, type: 3}
+  enemyDeath:
+  - {fileID: 8300000, guid: 78158fb50bf67b44c8c76e0c7f806ed6, type: 3}
+  - {fileID: 8300000, guid: 7e199a806702e2147961b4362749c49b, type: 3}
+  - {fileID: 8300000, guid: 1966e34af3365c64bbdd0df86822d91c, type: 3}
+  enemySpawn:
+  - {fileID: 8300000, guid: 034415e42e16ed546a9eb98e0abce948, type: 3}
+  - {fileID: 8300000, guid: 37c20181b3f44604397f3b6bb5e1b2d3, type: 3}
+  - {fileID: 8300000, guid: 448415746c6910a47af2efb530712316, type: 3}
+  enemyWakeUp: {fileID: 8300000, guid: ea0b1606831ec45888682da700fa2156, type: 3}
+  lightning:
+  - {fileID: 8300000, guid: c00b3c8b8f083814397404ff4c0b3cbd, type: 3}
+  - {fileID: 8300000, guid: 87f20cc2fcffb064499458dd0ce0632d, type: 3}
+  - {fileID: 8300000, guid: 998328b2739071641bb3cde045caf0a0, type: 3}
+  - {fileID: 8300000, guid: 73f68893d8cb24b439eecff7516532a4, type: 3}
+  - {fileID: 8300000, guid: 599bf237c037a184d87284bbc908e341, type: 3}
+  - {fileID: 8300000, guid: f89c7b9ad6f953f4182e142ca5e065bd, type: 3}
+  gainArmor: {fileID: 8300000, guid: 2b4bd7f57c2df644c95c0f8e615bbbe2, type: 3}
+  gainVengeance: {fileID: 8300000, guid: 7ff6afe06916f2041994f999c85be6e0, type: 3}
+  sleep: {fileID: 8300000, guid: f2b8b829522f4354abe89a7f0db98aa2, type: 3}
+  heal: {fileID: 8300000, guid: 00e594bc5ad68694a86b9fbf1112ad6f, type: 3}
 --- !u!1 &527037022
 GameObject:
   m_ObjectHideFlags: 0

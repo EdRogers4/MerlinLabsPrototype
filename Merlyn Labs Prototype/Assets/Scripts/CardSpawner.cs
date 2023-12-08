@@ -74,5 +74,6 @@ public class CardSpawner : MonoBehaviour
         }
 
         scriptCardPositioner.isNoCardsHighlighted = true;
+        scriptGameManager.scriptSoundLibrary.SoundCardSpawn();
     }
 }

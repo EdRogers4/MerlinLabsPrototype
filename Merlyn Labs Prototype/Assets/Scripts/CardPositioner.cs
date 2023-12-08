@@ -6,6 +6,10 @@ using UnityEngine.UI;
 
 public class CardPositioner : MonoBehaviour
 {
+    [Header("Sound")]
+    [SerializeField] private SoundLibrary scriptSoundLibrary;
+
+    [Header("Cards")]
     public Card currentCard;
     public bool isCardDrag;
     public bool isNoCardsHighlighted;
@@ -97,6 +101,7 @@ public class CardPositioner : MonoBehaviour
             {
                 enemyHighlight[0].sprite = spriteEnemyTargeted;
                 enemyTargeted = 1;
+                scriptSoundLibrary.SoundTargetEnemy();
             }
         }
         else
@@ -119,6 +124,7 @@ public class CardPositioner : MonoBehaviour
             {
                 enemyHighlight[1].sprite = spriteEnemyTargeted;
                 enemyTargeted = 2;
+                scriptSoundLibrary.SoundTargetEnemy();
             }
         }
         else
@@ -143,6 +149,7 @@ public class CardPositioner : MonoBehaviour
             currentCardHighlighted = index;
             transformCurrentCard = listCardTransform[index - 1];
             transformCurrentTarget = listPositionsHighlighted[index - 1];
+            scriptSoundLibrary.SoundCardHighlight();
         }
     }
 

@@ -56,6 +56,7 @@ public class Card : MonoBehaviour
             scriptCardsLibrary.PlayCard(cardIndex, scriptCardPositioner.enemyTargeted - 1);
             scriptGameManager.UseEnergy(scriptCardsLibrary.energyCost[cardIndex]);
             scriptGameManager.isCardUnavailableToPlay = true;
+            scriptGameManager.scriptSoundLibrary.SoundCardDrop();
             Destroy(this.gameObject);
         }
     }
