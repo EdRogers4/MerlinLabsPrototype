@@ -55,6 +55,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int[] enemyDamage;
     [SerializeField] private int[] enemyHealth;
     [SerializeField] private int[] enemyHealthMax;
+    [SerializeField] private int[] countTurnsLeftToSleep;
+    [SerializeField] private GameObject[] sleepDisplay;
+    [SerializeField] private TextMeshProUGUI[] textSleepCounter;
     [SerializeField] private Image[] enemyHealthFill;
     [SerializeField] private TextMeshProUGUI[] textEnemyHealth;
     [SerializeField] private TextMeshProUGUI[] textEnemyZZZ;
@@ -87,6 +90,8 @@ public class GameManager : MonoBehaviour
 
     [Header("Popups")]
     [SerializeField] private GameObject tooltipAbility;
+    [SerializeField] private GameObject tooltipSleepPotion;
+    [SerializeField] private GameObject[] tooltipSleep;
     [SerializeField] private TextMeshProUGUI textTooltipDescription;
     [SerializeField] private Animator[] animatorPopupTextEnemy;
     [SerializeField] private Animator animatorPopupTextPlayerDamage;
@@ -209,6 +214,20 @@ public class GameManager : MonoBehaviour
 
                 yield return new WaitForSeconds(0.5f);
             }
+
+            if (isEnemySleep[h])
+            {
+                countTurnsLeftToSleep[h] -= 1;
+                textSleepCounter[h].text = "" + countTurnsLeftToSleep[h];
+
+                if (countTurnsLeftToSleep[h] <= 0)
+                {
+                    isEnemySleep[h] = false;
+                    textEnemyZZZ[h].text = "";
+                    animatorEnemy[h].SetBool("isSleep", false);
+                    sleepDisplay[h].SetActive(false);
+                }
+            }
         }
 
         scriptCardSpawner.SpawnCards();
@@ -254,11 +273,11 @@ public class GameManager : MonoBehaviour
 
         yield return new WaitForSeconds(0.75f);
 
-        Debug.Log("enemy to attack: " + enemyToAttack);
-
         if (isEnemySleep[enemyToAttack])
         {
             isEnemySleep[enemyToAttack] = false;
+            countTurnsLeftToSleep[enemyToAttack] = 0;
+            sleepDisplay[enemyToAttack].SetActive(false);
             textEnemyZZZ[enemyToAttack].text = "";
             animatorEnemy[enemyToAttack].SetBool("isSleep", false);
         }
@@ -513,6 +532,9 @@ public class GameManager : MonoBehaviour
             animatorEnemy[index].SetBool("isSleep", true);
             Destroy(potions[selectedPotion]);
             particleEnemySleep[index].Play();
+            countTurnsLeftToSleep[index] = 3;
+            sleepDisplay[index].SetActive(true);
+            textSleepCounter[index].text = "" + countTurnsLeftToSleep[index];
 
             if (!isShowEnemyZZZ)
             {
@@ -576,6 +598,26 @@ public class GameManager : MonoBehaviour
     public void HideTooltip()
     {
         tooltipAbility.SetActive(false);
+    }
+
+    public void ShowTooltipPotion()
+    {
+        tooltipSleepPotion.SetActive(true);
+    }
+
+    public void HideTooltipPotion()
+    {
+        tooltipSleepPotion.SetActive(false);
+    }
+
+    public void ShowTooltipSleep(int index)
+    {
+        tooltipSleep[index].SetActive(true);
+    }
+
+    public void HideTooltipSleep(int index)
+    {
+        tooltipSleep[index].SetActive(false);
     }
 
     public void RestartGame()

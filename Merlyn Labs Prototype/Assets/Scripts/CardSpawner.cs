@@ -56,7 +56,8 @@ public class CardSpawner : MonoBehaviour
             }
             else if (thisCard.cardIndex == 9)
             {
-                thisCard.GetComponent<Image>().color = new Color(0.38f, 0.0f, 1.0f, 1.0f);
+                //thisCard.GetComponent<Image>().color = new Color(0.38f, 0.0f, 1.0f, 1.0f);
+                thisCard.GetComponent<Image>().color = new Color(0.79f, 1.0f, 0.27f, 1.0f);
             }
 
             if (scriptCardsLibrary.isXCost[thisCard.cardIndex])
