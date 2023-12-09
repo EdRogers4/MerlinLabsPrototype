@@ -64,7 +64,7 @@ public class SoundLibrary : MonoBehaviour
     {
         if (cardSpawn != null)
         {
-            audioSource.PlayOneShot(cardSpawn, 1.0F);
+            //audioSource.PlayOneShot(cardSpawn, 1.0F);
         }
     }
 
@@ -164,7 +164,7 @@ public class SoundLibrary : MonoBehaviour
     {
         for (int i = 0; i < lightning.Length; i++)
         {
-            audioSource.PlayOneShot(lightning[i], 0.7F);
+            audioSource.PlayOneShot(lightning[i], 0.4F);
         }
     }
 

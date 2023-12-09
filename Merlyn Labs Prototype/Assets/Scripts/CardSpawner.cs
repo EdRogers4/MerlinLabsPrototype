@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class CardSpawner : MonoBehaviour
 {
     public GameObject prefabCard;
+    [SerializeField] private Transform cardsParent;
     [SerializeField] private Transform spawnPointCard;
     [SerializeField] private GameManager scriptGameManager;
     [SerializeField] private CardPositioner scriptCardPositioner;
@@ -40,7 +41,7 @@ public class CardSpawner : MonoBehaviour
         for (int i = 0; i < 5; i++)
         {
             newCard = Instantiate(prefabCard, spawnPointCard.position, spawnPointCard.rotation);
-            newCard.transform.SetParent(canvas.transform);
+            newCard.transform.SetParent(cardsParent);
             scriptCardPositioner.listCardTransform.Add(newCard.transform);
             scriptCardPositioner.AssignCurrentCardPositions(5);
             var thisCard = newCard.GetComponent<Card>();

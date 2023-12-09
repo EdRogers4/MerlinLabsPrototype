@@ -155,7 +155,7 @@ public class GameManager : MonoBehaviour
     {
         for (int h = 0; h < 2; h++)
         {
-            if (!isEnemyDead[h] && !isEnemySleep[h])
+            if (!isEnemyDead[h] && !isEnemySleep[h] && !isPlayerDead)
             {
                 yield return new WaitForSeconds(1.0f);
                 animatorEnemy[h].SetBool("isAttack", true);
@@ -178,12 +178,7 @@ public class GameManager : MonoBehaviour
 
                         if (playerHealth <= 0)
                         {
-                            scriptSoundLibrary.SoundPlayerDeath();
-                            animatorPlayer.SetBool("isDeath", true);
-                            isPlayerDead = true;
-                            buttonEndTurn.SetActive(false);
-                            yield return new WaitForSeconds(1.0f);
-                            deathScreen.SetActive(true);
+                            StartCoroutine(PlayerDeath());
                             break;
                         }
                     }
@@ -205,6 +200,12 @@ public class GameManager : MonoBehaviour
                                 playerHealthFill.rectTransform.sizeDelta = new Vector2(newWidth, playerHealthFill.rectTransform.sizeDelta.y);
                                 yield return new WaitForSeconds(0.03f);
                                 textPlayerHealth.text = playerHealth + "/" + playerHealthMax;
+
+                                if (playerHealth <= 0)
+                                {
+                                    StartCoroutine(PlayerDeath());
+                                    break;
+                                }
                             }
                             break;
                         }
@@ -243,6 +244,16 @@ public class GameManager : MonoBehaviour
         scriptCardSpawner.SpawnCards();
         FillEnergy();
         isEndTurnUnavailable = false;
+    }
+
+    private IEnumerator PlayerDeath()
+    {
+        scriptSoundLibrary.SoundPlayerDeath();
+        animatorPlayer.SetBool("isDeath", true);
+        isPlayerDead = true;
+        buttonEndTurn.SetActive(false);
+        yield return new WaitForSeconds(1.0f);
+        deathScreen.SetActive(true);
     }
 
     public void PlayerAttack(int damage, int enemyToAttack)
